@@ -42,6 +42,14 @@ public class GUI extends Application {
     
     Button btnMain = new Button("Main Menu");
     
+    // Add Data Menu
+    Button btnCustomer = new Button("Create Customer");
+    Button btnProduct = new Button("Create Product");
+    Button btnSupplier = new Button("Create Supplier");
+    Button btnStoreArea = new Button("Create Store Area");
+    
+    
+    
     // Customer Info
     Label lblCustomer = new Label("Create Customer:");
     Label lblCName = new Label("Name:");
@@ -76,15 +84,15 @@ public class GUI extends Application {
     TextField txtContactEmail = new TextField();
     Button btnCreateSupplier = new Button("Create Supplier");
     
-    // Store Info
-    Label lblStore = new Label("Store Area");
+    // Store Area Info
+    Label lblStoreArea = new Label("Store Area");
     Label lblStoreName = new Label("Service Center Name:");
     Label lblStoreDept = new Label("Service Department:");
     Label lblDeptDesc = new Label("Department Description:");
     TextField txtStoreName = new TextField();
     TextField txtStoreDept = new TextField();
     TextField txtDeptDesc = new TextField();
-    Button btnCreateStore = new Button("Create Store Area");
+    Button btnCreateStoreArea = new Button("Create Store Area");
     
     
     TextArea txtOutput = new TextArea();
@@ -117,7 +125,17 @@ public class GUI extends Application {
         
         btnAddData.setOnAction(e -> {
         primaryPane.getChildren().clear();
-        primaryPane.setAlignment(Pos.CENTER_LEFT);
+        primaryPane.setAlignment(Pos.CENTER);
+        
+        primaryPane.add(btnCustomer, 0, 0);
+        primaryPane.add(btnProduct, 0, 1);
+        primaryPane.add(btnSupplier, 0, 2);
+        primaryPane.add(btnStoreArea,0, 3);
+        
+        });
+        
+        btnCustomer.setOnAction(e -> {
+        primaryPane.getChildren().clear();
         
         // Create Customer
         primaryPane.add(lblCustomer, 0, 0);
@@ -128,46 +146,61 @@ public class GUI extends Application {
         primaryPane.add(lblCAddress, 0, 3);
         primaryPane.add(txtCAddress, 1, 3);
         primaryPane.add(btnCreateCustomer, 1, 4);
-        
-        // Create Product
-        primaryPane.add(lblProduct, 4, 0);
-        primaryPane.add(lblPName, 4, 1);
-        primaryPane.add(txtPName, 5, 1);
-        primaryPane.add(lblPPrice, 4, 2);
-        primaryPane.add(txtPPrice, 5, 2);
-        primaryPane.add(lblPDesc, 4, 3);
-        primaryPane.add(txtPDesc, 5, 3);
-        primaryPane.add(btnCreateProduct, 5, 4);
-        
-        // Create Supplier
-        primaryPane.add(lblSupplier, 7, 0);
-        primaryPane.add(lblSName, 7, 1);
-        primaryPane.add(txtSName, 8, 1);
-        primaryPane.add(lblSAddress, 7, 2);
-        primaryPane.add(txtSAddress, 8, 2);
-        primaryPane.add(lblContactName, 7, 3);
-        primaryPane.add(txtContactName, 8, 3);
-        primaryPane.add(lblContactPhone, 7, 4);
-        primaryPane.add(txtContactPhone, 8, 4);
-        primaryPane.add(lblContactEmail, 7, 5);
-        primaryPane.add(txtContactEmail, 8, 5);
-        primaryPane.add(btnCreateSupplier, 8, 6);
-        
-        // Create Store
-        primaryPane.add(lblStore, 0, 7);
-        primaryPane.add(lblStoreName, 0, 8);
-        primaryPane.add(txtStoreName, 1, 8);
-        primaryPane.add(lblStoreDept, 0, 9);
-        primaryPane.add(txtStoreDept, 1, 9);
-        primaryPane.add(lblDeptDesc, 0, 10);
-        primaryPane.add(txtDeptDesc, 1, 10);
-        primaryPane.add(btnCreateStore, 1, 11);
-        
-        
-        primaryPane.add(btnMain, 5, 15);
-        
+        primaryPane.add(btnMain, 1, 6);
         
         });
+        
+
+        btnProduct.setOnAction(e ->{
+        primaryPane.getChildren().clear();
+        
+        // Create Product
+        primaryPane.add(lblProduct, 0, 0);
+        primaryPane.add(lblPName, 0, 1);
+        primaryPane.add(txtPName, 1, 1);
+        primaryPane.add(lblPPrice, 0, 2);
+        primaryPane.add(txtPPrice, 1, 2);
+        primaryPane.add(lblPDesc, 0, 3);
+        primaryPane.add(txtPDesc, 1, 3);
+        primaryPane.add(btnCreateProduct, 1, 4);
+        primaryPane.add(btnMain, 1, 6);
+        });
+        
+        
+        btnSupplier.setOnAction(e ->{
+        primaryPane.getChildren().clear();
+        // Create Supplier
+        primaryPane.add(lblSupplier, 0, 0);
+        primaryPane.add(lblSName, 0, 1);
+        primaryPane.add(txtSName, 1, 1);
+        primaryPane.add(lblSAddress, 0, 2);
+        primaryPane.add(txtSAddress, 1, 2);
+        primaryPane.add(lblContactName, 0, 3);
+        primaryPane.add(txtContactName, 1, 3);
+        primaryPane.add(lblContactPhone, 0, 4);
+        primaryPane.add(txtContactPhone, 1, 4);
+        primaryPane.add(lblContactEmail, 0, 5);
+        primaryPane.add(txtContactEmail, 1, 5);
+        primaryPane.add(btnCreateSupplier, 1, 6);
+        primaryPane.add(btnMain, 1, 8);
+        });
+        
+        
+        btnStoreArea.setOnAction(e ->{
+        primaryPane.getChildren().clear();
+        // Create Store
+        primaryPane.add(lblStoreArea, 0, 0);
+        primaryPane.add(lblStoreName, 0, 1);
+        primaryPane.add(txtStoreName, 1, 1);
+        primaryPane.add(lblStoreDept, 0, 2);
+        primaryPane.add(txtStoreDept, 1, 2);
+        primaryPane.add(lblDeptDesc, 0, 3);
+        primaryPane.add(txtDeptDesc, 1, 3);
+        primaryPane.add(btnCreateStoreArea, 1, 4);
+        primaryPane.add(btnMain, 1, 6);
+        });
+        
+        //primaryPane.add(btnMain, 5, 15);
         
         
         
