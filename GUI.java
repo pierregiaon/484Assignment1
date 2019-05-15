@@ -1,8 +1,7 @@
 /*
-Author: Jeremy D. Ezell - JMU
+Author: Pierre Giaon & Meghana Krishna
 Date: 5/14/2019
-Purpose: JavaFX form for creating and interacting with an
-  inventory of Sprockets.
+Purpose: 
 
 */
 package HW1;
@@ -35,6 +34,14 @@ public class GUI extends Application {
     
     // FX Controls
     
+    // Main Menu
+    
+    Label lblWelcome = new Label("Select an Option:");
+    Button btnAddData = new Button("Add Data");
+    Button btnDisplay = new Button("Display Data");
+    
+    Button btnMain = new Button("Main Menu");
+    
     // Customer Info
     Label lblCustomer = new Label("Create Customer:");
     Label lblCName = new Label("Name:");
@@ -43,7 +50,7 @@ public class GUI extends Application {
     TextField txtCName = new TextField();
     TextField txtCPhone = new TextField();
     TextField txtCAddress = new TextField();
-    Button btnCustomer = new Button("Create Customer");
+    Button btnCreateCustomer = new Button("Create Customer");
     
     // Product Info
     Label lblProduct = new Label("Create Product:");
@@ -53,7 +60,7 @@ public class GUI extends Application {
     TextField txtPName = new TextField();
     TextField txtPPrice = new TextField();
     TextField txtPDesc = new TextField();
-    Button btnProduct = new Button("Create Product");
+    Button btnCreateProduct = new Button("Create Product");
     
     // Supplier Info
     Label lblSupplier = new Label("Create Supplier:");
@@ -67,7 +74,7 @@ public class GUI extends Application {
     TextField txtContactName = new TextField();
     TextField txtContactPhone = new TextField();
     TextField txtContactEmail = new TextField();
-    Button btnSupplier = new Button("Create Supplier");
+    Button btnCreateSupplier = new Button("Create Supplier");
     
     // Store Info
     Label lblStore = new Label("Store Area");
@@ -77,8 +84,10 @@ public class GUI extends Application {
     TextField txtStoreName = new TextField();
     TextField txtStoreDept = new TextField();
     TextField txtDeptDesc = new TextField();
-    Button btnStore = new Button("Create Store Area");
+    Button btnCreateStore = new Button("Create Store Area");
     
+    
+    TextArea txtOutput = new TextArea();
     GridPane primaryPane = new GridPane();
     
     
@@ -91,8 +100,24 @@ public class GUI extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-        primaryPane.setAlignment(Pos.CENTER_LEFT);
+        primaryPane.setAlignment(Pos.CENTER);
         
+        primaryPane.add(lblWelcome, 0, 0);
+        primaryPane.add(btnAddData, 0, 1);
+        primaryPane.add(btnDisplay, 0, 3);
+        
+        
+        Scene primaryScene = new Scene(primaryPane, 1050,550);
+        primaryStage.setScene(primaryScene);
+        primaryStage.setTitle("HV AC / Residential Air");
+        primaryStage.show();
+        primaryPane.setHgap(10);
+        primaryPane.setVgap(5);
+        
+        
+        btnAddData.setOnAction(e -> {
+        primaryPane.getChildren().clear();
+        primaryPane.setAlignment(Pos.CENTER_LEFT);
         
         // Create Customer
         primaryPane.add(lblCustomer, 0, 0);
@@ -102,7 +127,7 @@ public class GUI extends Application {
         primaryPane.add(txtCPhone, 1, 2);
         primaryPane.add(lblCAddress, 0, 3);
         primaryPane.add(txtCAddress, 1, 3);
-        primaryPane.add(btnCustomer, 1, 4);
+        primaryPane.add(btnCreateCustomer, 1, 4);
         
         // Create Product
         primaryPane.add(lblProduct, 4, 0);
@@ -112,7 +137,7 @@ public class GUI extends Application {
         primaryPane.add(txtPPrice, 5, 2);
         primaryPane.add(lblPDesc, 4, 3);
         primaryPane.add(txtPDesc, 5, 3);
-        primaryPane.add(btnProduct, 5, 4);
+        primaryPane.add(btnCreateProduct, 5, 4);
         
         // Create Supplier
         primaryPane.add(lblSupplier, 7, 0);
@@ -126,7 +151,7 @@ public class GUI extends Application {
         primaryPane.add(txtContactPhone, 8, 4);
         primaryPane.add(lblContactEmail, 7, 5);
         primaryPane.add(txtContactEmail, 8, 5);
-        primaryPane.add(btnSupplier, 8, 6);
+        primaryPane.add(btnCreateSupplier, 8, 6);
         
         // Create Store
         primaryPane.add(lblStore, 0, 7);
@@ -136,21 +161,20 @@ public class GUI extends Application {
         primaryPane.add(txtStoreDept, 1, 9);
         primaryPane.add(lblDeptDesc, 0, 10);
         primaryPane.add(txtDeptDesc, 1, 10);
-        primaryPane.add(btnStore, 1, 11);
+        primaryPane.add(btnCreateStore, 1, 11);
+        
+        
+        primaryPane.add(btnMain, 5, 15);
+        
+        
+        });
         
         
         
         
         
-        Scene primaryScene = new Scene(primaryPane,950,550);
-        primaryStage.setScene(primaryScene);
-        primaryStage.setTitle("HV AC / Residential Air");
-        primaryStage.show();
-        primaryPane.setHgap(10);
-        primaryPane.setVgap(5);
         
-        
-        btnCustomer.setOnAction(e -> {
+        btnCreateCustomer.setOnAction(e -> {
             customerList.add(new Customer(txtCName.getText(), 
                     txtCPhone.getText(), 
                     txtCAddress.getText()));
@@ -162,7 +186,7 @@ public class GUI extends Application {
         });
         
         
-        btnProduct.setOnAction(e -> {
+        btnCreateProduct.setOnAction(e -> {
             productList.add(new Product(txtPName.getText(),
                     Double.valueOf(txtPPrice.getText()),
                     txtPDesc.getText()));
@@ -173,8 +197,21 @@ public class GUI extends Application {
             txtPDesc.clear();
         });
         
+        btnMain.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            primaryPane.add(lblWelcome, 0, 0);
+            primaryPane.add(btnAddData, 0, 1);
+            primaryPane.add(btnDisplay, 0, 3);
+            
+        });
         
-        
+        btnDisplay.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            primaryPane.add(txtOutput, 0, 0, 5, 5);
+            primaryPane.add(btnMain, 0, 10);
+        });
         
         
     }
