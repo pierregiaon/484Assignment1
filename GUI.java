@@ -29,8 +29,17 @@ public class GUI extends Application {
     // Class level variables / data fields / "globals"
     // Storing data in memory:
     //ArrayList<Sprocket> sprocketInventory = new ArrayList<>();
-    ArrayList<Customer> customerList = new ArrayList<>();
-    ArrayList<Product> productList = new ArrayList<>();
+    static ArrayList<Customer> customerList = new ArrayList<Customer>()
+    {
+        {
+            customerList.add(new Customer("Pierre", "9111", "fdsa"));
+        }
+    };
+    static ArrayList<Product> productList = new ArrayList<Product>(){
+        {
+            productList.add(new Product("Banana", 2.00, "A yellow fruit"));
+        }
+    };
     
     // FX Controls
     
@@ -97,7 +106,8 @@ public class GUI extends Application {
     
     TextArea txtOutput = new TextArea();
     GridPane primaryPane = new GridPane();
-    
+    TextArea customerDisplay = new TextArea();
+    ScrollPane customerScrollPane = new ScrollPane(customerDisplay);
     
     // Our Database Connection method needs these 
     // objects. We declare them here and point them
@@ -242,8 +252,10 @@ public class GUI extends Application {
         btnDisplay.setOnAction(e -> {
             primaryPane.getChildren().clear();
             primaryPane.setAlignment(Pos.CENTER);
-            primaryPane.add(txtOutput, 0, 0, 5, 5);
+            primaryPane.add(customerScrollPane, 0, 0, 5, 5);
             primaryPane.add(btnMain, 0, 10);
+            displayCustomers(customerDisplay);
+            
         });
         
         
@@ -301,4 +313,16 @@ public class GUI extends Application {
         launch(args);
     }
     
+    public static void displayCustomers(TextArea customerDisplay)
+    {
+        System.out.println(customerList.size());
+        String current = "";
+        current += String.format("%s\t\t%s\t\t\t%s\t\t\t%s\n", "Customer ID:", "Name", "Phone:", "Address:");
+        for(int i = 0; i < customerList.size(); i++)
+        {
+            current += customerList.get(i);
+            current += "\n";
+        }
+        customerDisplay.setText(current);
+    }
 }
