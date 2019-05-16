@@ -15,5 +15,12 @@ public class Customer {
         this.customerID = nextCustomerID++;
     }
     
+    public String toString()
+    {
+        String result = "";
+        result += String.format("%3d\t\t\t\t%s\t\t\t%s\t\t\t%s", this.customerID, this.name, this.phone, this.address);
+        
+        return result;
+    }
     
 }
