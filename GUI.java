@@ -6,23 +6,26 @@ Purpose:
 */
 package HW1;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javafx.application.Application;
-import javafx.event.*;
+import static javafx.application.Application.launch;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
-import java.util.*;
-import javafx.collections.*; // ObservableArrayLists
+import java.util.ArrayList;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import java.text.DecimalFormat;
 import javafx.geometry.Pos;
-import javafx.scene.chart.*; // Charts and Tables
-import javafx.scene.control.cell.*; // Tableview
-
 import java.sql.*;
-import oracle.jdbc.pool.*;
 import java.util.*;
-import static javafx.application.Application.launch;
+import oracle.jdbc.pool.*;
 
 
 public class GUI extends Application {
@@ -31,7 +34,15 @@ public class GUI extends Application {
     static ArrayList<Product> productList = new ArrayList<Product>();
     static ArrayList<Supplier> supplierList = new ArrayList<Supplier>();
     static ArrayList<StoreArea> storeAreaList = new ArrayList<StoreArea>();
+    static ArrayList<Technician> techList = new ArrayList<Technician>();
     // FX Controls
+    
+    // ComboBoxes
+    ObservableList obsCust = FXCollections.observableArrayList();
+    ComboBox cmboCust = new ComboBox(Customer.obsCust);
+    ObservableList obsTech = FXCollections.observableArrayList();
+    ComboBox cmboTech = new ComboBox(Technician.obsTech);
+    
     
     // Main Menu
     
@@ -46,7 +57,7 @@ public class GUI extends Application {
     Button btnProduct = new Button("Create Product");
     Button btnSupplier = new Button("Create Supplier");
     Button btnStoreArea = new Button("Create Store Area");
-    
+    Button btnTech = new Button("Create Technician");
     
     
     // Customer Info
@@ -84,7 +95,7 @@ public class GUI extends Application {
     Button btnCreateSupplier = new Button("Create Supplier");
     
     // Store Area Info
-    Label lblStoreArea = new Label("Store Area");
+    Label lblStoreArea = new Label("Store Area:");
     Label lblStoreName = new Label("Service Center Name:");
     Label lblStoreDept = new Label("Service Department:");
     Label lblDeptDesc = new Label("Department Description:");
@@ -92,6 +103,13 @@ public class GUI extends Application {
     TextField txtStoreDept = new TextField();
     TextField txtDeptDesc = new TextField();
     Button btnCreateStoreArea = new Button("Create Store Area");
+    
+    // Technician Info
+    Label lblTech = new Label("Technician:");
+    Label lblTechName = new Label("Name:");
+    TextField txtTechName = new TextField();
+    Button btnCreateTech = new Button("Create Technician");
+    
     
     
     TextArea txtOutput = new TextArea();
@@ -101,7 +119,7 @@ public class GUI extends Application {
     
     // Display Buttons
     Button btnDisplayCustomers = new Button("Display Customers");
-    
+    Button btnDisplayTech = new Button("Display Technicians");
     // Our Database Connection method needs these 
     // objects. We declare them here and point them
     // to instance objects below.
@@ -134,6 +152,7 @@ public class GUI extends Application {
         primaryPane.add(btnProduct, 0, 1);
         primaryPane.add(btnSupplier, 0, 2);
         primaryPane.add(btnStoreArea,0, 3);
+        primaryPane.add(btnTech, 0, 4);
         
         });
         
@@ -203,7 +222,15 @@ public class GUI extends Application {
         primaryPane.add(btnMain, 1, 6);
         });
         
-        //primaryPane.add(btnMain, 5, 15);
+        btnTech.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.add(lblTech, 0, 0);
+            primaryPane.add(lblTechName, 0, 1);
+            primaryPane.add(txtTechName, 1, 1);
+            primaryPane.add(btnCreateTech, 1, 2);
+            primaryPane.add(btnMain, 1, 3);
+            
+        });
         
         
         btnCreateSupplier.setOnAction(e -> {
@@ -255,6 +282,12 @@ public class GUI extends Application {
             txtDeptDesc.clear();
         });
         
+        btnCreateTech.setOnAction(e -> {
+            techList.add(new Technician(txtTechName.getText()));
+            
+            txtTechName.clear();
+        });
+        
         btnMain.setOnAction(e -> {
             primaryPane.getChildren().clear();
             primaryPane.setAlignment(Pos.CENTER);
@@ -267,10 +300,16 @@ public class GUI extends Application {
         btnDisplay.setOnAction(e -> {
             primaryPane.getChildren().clear();
             primaryPane.setAlignment(Pos.CENTER);
-            primaryPane.add(btnDisplayCustomers, 0, 0);
-            primaryPane.add(customerDisplay, 0, 1, 5, 5);
+            primaryPane.add(cmboCust, 0, 0);
+            primaryPane.add(btnDisplayCustomers, 0, 1);
+            //store cmbo
+            // store btn
+            primaryPane.add(cmboTech, 0, 2);
+            primaryPane.add(btnDisplayTech, 0, 3);
             
-            primaryPane.add(btnMain, 0, 10);
+            primaryPane.add(customerDisplay, 2, 0, 10, 10);
+            
+            primaryPane.add(btnMain, 0, 20);
             //displayCustomers(customerDisplay);
             
         });
