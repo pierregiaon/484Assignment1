@@ -52,7 +52,7 @@ public class GUI extends Application {
     Label lblWelcome = new Label("Select an Option:");
     Button btnAddData = new Button("Add Data");
     Button btnDisplay = new Button("Display Data");
-    
+    Button btnActions = new Button("Order and Services");
     Button btnMain = new Button("Main Menu");
     
     // Add Data Menu
@@ -63,6 +63,11 @@ public class GUI extends Application {
     Button btnTech = new Button("Create Technician");
     Button btnStore = new Button("Create Store");
     
+    // Actions Menu
+    Button btnOrder = new Button("Customer Order");
+    Button btnService = new Button("Technician Services");
+    
+        
     // Customer Info
     Label lblCustomer = new Label("Create Customer:");
     Label lblCName = new Label("Name:");
@@ -119,6 +124,19 @@ public class GUI extends Application {
     TextField txtStName = new TextField();
     Button btnCreateStore = new Button("Create Store");
     
+    // Order Menu
+    Label lblOrder = new Label("Customer Order Menu");
+    Label lblOCust = new Label("Customer: ");
+    Label lblOProd = new Label("Product: ");
+    Label lblOStore = new Label("Store: ");
+    Button btnCreateO = new Button("Create Order");
+    
+    // Technician Service Menu
+    Label lblTechService = new Label("Technician Service Menu");
+    Label lblTServ = new Label("Technician:");
+    Label lblService = new Label("Service:");
+    Label lblServStore = new Label("Store:");
+    
     
     TextArea txtOutput = new TextArea();
     GridPane primaryPane = new GridPane();
@@ -142,6 +160,7 @@ public class GUI extends Application {
         
         primaryPane.add(lblWelcome, 0, 0);
         primaryPane.add(btnAddData, 0, 1);
+        primaryPane.add(btnActions, 0, 2);
         primaryPane.add(btnDisplay, 0, 3);
         
         
@@ -328,15 +347,11 @@ public class GUI extends Application {
             primaryPane.add(cmboCust, 0, 0);
             primaryPane.add(btnDisplayCustomers, 0, 1);
             primaryPane.add(cmboStore, 0, 2);
-            primaryPane.add(btnStore, 0, 3);
-            // store btn
+            primaryPane.add(btnDisplayStore, 0, 3);
             primaryPane.add(cmboTech, 0, 4);
             primaryPane.add(btnDisplayTech, 0, 5);
-            
             primaryPane.add(txtOutput, 2, 0, 10, 10);
-            
             primaryPane.add(btnMain, 0, 11);
-            //displayCustomers(customerDisplay);
             
         });
         
@@ -344,6 +359,27 @@ public class GUI extends Application {
             txtOutput.clear();
             
             displayCustomers(txtOutput);
+        });
+        
+        btnActions.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            // create a label
+            primaryPane.add(btnOrder, 0, 1);
+            primaryPane.add(btnService, 0, 2);
+            primaryPane.add(btnMain, 0, 3);
+        });
+        
+        btnOrder.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.add(lblOrder, 0, 0);
+            primaryPane.add(lblOCust, 0, 1);
+            primaryPane.add(cmboCust, 1, 1);
+            primaryPane.add(lblOProd, 0, 2);
+            //primaryPane.add(cmboProd, 1, 2);
+            primaryPane.add(lblOStore, 0, 3);
+            primaryPane.add(cmboStore, 1, 3);
+            primaryPane.add(btnCreateO, 0, 4);
+            primaryPane.add(btnMain, 0, 5);
         });
         
     }
