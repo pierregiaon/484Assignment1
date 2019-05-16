@@ -1,14 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package HW1;
+package hw1;
 
-/**
- *
- * @author pierregiaon
- */
+
 public class Technician {
-    
+   
+    public int techNum; 
+    public static int techIDCount = 0; 
+    public String technicianName; 
+  
+    public Technician(String technicianName) {
+        this.technicianName = technicianName; 
+        this.techNum = techIDCount++; 
+    }
+    public static int getTechIDCount() {
+        return techIDCount++; 
+    }
 }
