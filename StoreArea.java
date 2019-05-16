@@ -1,14 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package HW1;
+package hw1;
 
-/**
- *
- * @author pierregiaon
- */
+
 public class StoreArea {
+    public int storeAreaID; 
+    public static int storeAreaCount = 0; 
+    public String serviceCenterName; 
+    public String serviceDep; 
+    public String depDesc; 
+    
+    public StoreArea(String serviceCenterName, String serviceDep, String depDesc) {
+        this.depDesc = depDesc; 
+        this.serviceCenterName = serviceCenterName; 
+        this.serviceDep = serviceDep; 
+        this.storeAreaID = 0 + storeAreaCount; 
+    }
     
 }
