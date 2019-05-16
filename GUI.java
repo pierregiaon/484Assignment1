@@ -26,21 +26,11 @@ import static javafx.application.Application.launch;
 
 
 public class GUI extends Application {
-    // Class level variables / data fields / "globals"
-    // Storing data in memory:
-    //ArrayList<Sprocket> sprocketInventory = new ArrayList<>();
-    static ArrayList<Customer> customerList = new ArrayList<Customer>()
-    {
-        {
-            customerList.add(new Customer("Pierre", "9111", "fdsa"));
-        }
-    };
-    static ArrayList<Product> productList = new ArrayList<Product>(){
-        {
-            productList.add(new Product("Banana", 2.00, "A yellow fruit"));
-        }
-    };
     
+    static ArrayList<Customer> customerList = new ArrayList<Customer>();
+    static ArrayList<Product> productList = new ArrayList<Product>();
+    static ArrayList<Supplier> supplierList = new ArrayList<Supplier>();
+    static ArrayList<StoreArea> storeAreaList = new ArrayList<StoreArea>();
     // FX Controls
     
     // Main Menu
@@ -108,6 +98,9 @@ public class GUI extends Application {
     GridPane primaryPane = new GridPane();
     TextArea customerDisplay = new TextArea();
     ScrollPane customerScrollPane = new ScrollPane(customerDisplay);
+    
+    // Display Buttons
+    Button btnDisplayCustomers = new Button("Display Customers");
     
     // Our Database Connection method needs these 
     // objects. We declare them here and point them
@@ -198,7 +191,7 @@ public class GUI extends Application {
         
         btnStoreArea.setOnAction(e ->{
         primaryPane.getChildren().clear();
-        // Create Store
+        // Create StoreArea
         primaryPane.add(lblStoreArea, 0, 0);
         primaryPane.add(lblStoreName, 0, 1);
         primaryPane.add(txtStoreName, 1, 1);
@@ -213,7 +206,20 @@ public class GUI extends Application {
         //primaryPane.add(btnMain, 5, 15);
         
         
-        
+        btnCreateSupplier.setOnAction(e -> {
+            supplierList.add(new Supplier(txtSName.getText(),
+                    txtSAddress.getText(),
+                    txtContactName.getText(),
+                    txtContactPhone.getText(),
+                    txtContactEmail.getText()));
+            
+            
+            txtSName.clear();
+            txtSAddress.clear();
+            txtContactName.clear();
+            txtContactPhone.clear();
+            txtContactEmail.clear();
+        });
         
         
         
@@ -240,6 +246,15 @@ public class GUI extends Application {
             txtPDesc.clear();
         });
         
+        btnCreateStoreArea.setOnAction(e -> {
+            storeAreaList.add(new StoreArea(txtStoreName.getText(), 
+                    txtStoreDept.getText(), txtDeptDesc.getText()));
+        
+            txtStoreName.clear();
+            txtStoreDept.clear();
+            txtDeptDesc.clear();
+        });
+        
         btnMain.setOnAction(e -> {
             primaryPane.getChildren().clear();
             primaryPane.setAlignment(Pos.CENTER);
@@ -252,12 +267,19 @@ public class GUI extends Application {
         btnDisplay.setOnAction(e -> {
             primaryPane.getChildren().clear();
             primaryPane.setAlignment(Pos.CENTER);
-            primaryPane.add(customerScrollPane, 0, 0, 5, 5);
+            primaryPane.add(btnDisplayCustomers, 0, 0);
+            primaryPane.add(customerDisplay, 0, 1, 5, 5);
+            
             primaryPane.add(btnMain, 0, 10);
-            displayCustomers(customerDisplay);
+            //displayCustomers(customerDisplay);
             
         });
         
+        btnDisplayCustomers.setOnAction(e -> {
+            customerDisplay.clear();
+            
+            displayCustomers(customerDisplay);
+        });
         
     }
 
@@ -317,12 +339,14 @@ public class GUI extends Application {
     {
         System.out.println(customerList.size());
         String current = "";
-        current += String.format("%s\t\t%s\t\t\t%s\t\t\t%s\n", "Customer ID:", "Name", "Phone:", "Address:");
+        current += String.format("%s\t\t%s\t\t\t%s\t\t\t%s\n", "Customer ID:", "Name:", "Phone:", "Address:");
         for(int i = 0; i < customerList.size(); i++)
         {
-            current += customerList.get(i);
+            current += customerList.get(i).toString();
             current += "\n";
         }
         customerDisplay.setText(current);
     }
+    
+    
 }
