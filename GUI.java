@@ -36,6 +36,7 @@ public class GUI extends Application {
     static ArrayList<StoreArea> storeAreaList = new ArrayList<StoreArea>();
     static ArrayList<Technician> techList = new ArrayList<Technician>();
     static ArrayList<Store> storeList = new ArrayList<Store>();
+    static ArrayList<Service> serviceList = new ArrayList<Service>();
     // FX Controls
     
     // ComboBoxes
@@ -45,7 +46,10 @@ public class GUI extends Application {
     ComboBox cmboTech = new ComboBox(Technician.obsTech);
     ObservableList obsStore = FXCollections.observableArrayList();
     ComboBox cmboStore = new ComboBox(Store.obsStore);
-    
+    ObservableList obsProd = FXCollections.observableArrayList();
+    ComboBox cmboProd = new ComboBox(Product.obsProd);
+    ObservableList obsService = FXCollections.observableArrayList();
+    ComboBox cmboService = new ComboBox(Service.obsServ);
     
     // Main Menu
     
@@ -124,6 +128,20 @@ public class GUI extends Application {
     TextField txtStName = new TextField();
     Button btnCreateStore = new Button("Create Store");
     
+    // Service Info
+    Label lblSService = new Label("Service:");
+    Label lblServName = new Label("Name: ");
+    TextField txtServName = new TextField();
+    Label lblServiceLvl = new Label("Service Level:");
+    ObservableList<String> serviceLvl = FXCollections.observableArrayList(
+            "Bronze",
+            "Silver",
+            "Gold");
+    final ComboBox cmboServiceLvl = new ComboBox(serviceLvl);
+    Label lblTown = new Label("Town:");
+    TextField txtTown = new TextField();
+    
+    
     // Order Menu
     Label lblOrder = new Label("Customer Order Menu");
     Label lblOCust = new Label("Customer: ");
@@ -136,7 +154,7 @@ public class GUI extends Application {
     Label lblTServ = new Label("Technician:");
     Label lblService = new Label("Service:");
     Label lblServStore = new Label("Store:");
-    
+    Button btnCreateS = new Button("Create Service");
     
     TextArea txtOutput = new TextArea();
     GridPane primaryPane = new GridPane();
@@ -164,7 +182,7 @@ public class GUI extends Application {
         primaryPane.add(btnDisplay, 0, 3);
         
         
-        Scene primaryScene = new Scene(primaryPane, 950,550);
+        Scene primaryScene = new Scene(primaryPane, 900,550);
         primaryStage.setScene(primaryScene);
         primaryStage.setTitle("HV AC / Residential Air");
         primaryStage.show();
@@ -175,13 +193,14 @@ public class GUI extends Application {
         btnAddData.setOnAction(e -> {
         primaryPane.getChildren().clear();
         primaryPane.setAlignment(Pos.CENTER);
-        
-        primaryPane.add(btnCustomer, 0, 0);
-        primaryPane.add(btnProduct, 0, 1);
-        primaryPane.add(btnSupplier, 0, 2);
-        primaryPane.add(btnStoreArea,0, 3);
-        primaryPane.add(btnTech, 0, 4);
-        primaryPane.add(btnMain, 0, 5);
+        primaryPane.add(lblWelcome, 0, 0);
+        primaryPane.add(btnCustomer, 0, 1);
+        primaryPane.add(btnProduct, 0, 2);
+        primaryPane.add(btnSupplier, 0, 3);
+        primaryPane.add(btnStoreArea,0, 4);
+        primaryPane.add(btnTech, 0, 5);
+        primaryPane.add(btnStore, 0, 6);
+        primaryPane.add(btnMain, 0, 7);
         
         });
         
@@ -251,6 +270,8 @@ public class GUI extends Application {
         primaryPane.add(btnMain, 1, 6);
         });
         
+        
+        //Technician
         btnTech.setOnAction(e -> {
             primaryPane.getChildren().clear();
             primaryPane.add(lblTech, 0, 0);
@@ -261,6 +282,7 @@ public class GUI extends Application {
             
         });
         
+        // Store
         btnStore.setOnAction(e -> {
             primaryPane.getChildren().clear();
             primaryPane.add(lblStore, 0, 0);
@@ -337,6 +359,7 @@ public class GUI extends Application {
             primaryPane.setAlignment(Pos.CENTER);
             primaryPane.add(lblWelcome, 0, 0);
             primaryPane.add(btnAddData, 0, 1);
+            primaryPane.add(btnActions, 0, 2);
             primaryPane.add(btnDisplay, 0, 3);
             
         });
@@ -363,7 +386,7 @@ public class GUI extends Application {
         
         btnActions.setOnAction(e -> {
             primaryPane.getChildren().clear();
-            // create a label
+            primaryPane.add(lblWelcome, 0, 0);
             primaryPane.add(btnOrder, 0, 1);
             primaryPane.add(btnService, 0, 2);
             primaryPane.add(btnMain, 0, 3);
@@ -375,11 +398,26 @@ public class GUI extends Application {
             primaryPane.add(lblOCust, 0, 1);
             primaryPane.add(cmboCust, 1, 1);
             primaryPane.add(lblOProd, 0, 2);
-            //primaryPane.add(cmboProd, 1, 2);
+            primaryPane.add(cmboProd, 1, 2);
             primaryPane.add(lblOStore, 0, 3);
             primaryPane.add(cmboStore, 1, 3);
-            primaryPane.add(btnCreateO, 0, 4);
-            primaryPane.add(btnMain, 0, 5);
+            primaryPane.add(lblService, 0, 4);
+            primaryPane.add(cmboService, 1, 4);
+            primaryPane.add(btnCreateO, 1, 5);
+            primaryPane.add(btnMain, 1, 6);
+        });
+        
+        btnService.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.add(lblTechService, 0, 0);
+            primaryPane.add(lblTServ, 0, 1);
+            primaryPane.add(cmboTech, 1, 1);
+            primaryPane.add(lblService, 0, 2);
+            primaryPane.add(cmboService, 1, 2);
+            primaryPane.add(lblServStore, 0, 3);
+            primaryPane.add(cmboStore, 1, 3);
+            primaryPane.add(btnCreateS, 1, 4);
+            primaryPane.add(btnMain, 1, 5);
         });
         
     }
