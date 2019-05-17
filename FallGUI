@@ -1,0 +1,1342 @@
+/*
+Nicholas Coffman
+Jonathan Doan
+Manfred Hueskes
+Pierre Giaon
+Shuvam Mishra
+*/
+
+package GroupProject;
+
+import javafx.application.Application;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
+public class GUIv2 extends Application {
+
+    static Customer[] customerList;
+    static Item[] itemList;
+    static Sale[] saleList;
+    static Vendor[] vendorList;
+    static Item itemSold;
+    static int vendorTracker = 0;
+    static int customerTracker = 4;
+    static int bCustomerTracker = 0;
+    static int itemTracker =0;
+    static int choiceSelector = 0;
+    static int saleTracker = 5;
+    static int transaction = 3;
+    static int sales = 0;
+    static double editNum;
+    static String updated ="";
+    static String activeId = "";
+    static String activeItem = "";
+    static String tempID = "";
+
+    @Override
+    public void start(Stage primaryStage) {
+        //Create your controls
+        addInfo();
+        Label lblWelcome = new Label("Welcome to Valley Depot!");
+        lblWelcome.setStyle("-fx-font: 24 arial;");
+        Label lblMenu = new Label("Please select a menu option:");
+        lblMenu.setStyle("-fx-font: 14 arial;");
+        Label lblHeader = new Label("Manage Customers");
+        lblHeader.setStyle("-fx-font: 20 arial;");
+        Label lblManageItems = new Label("Manage Items");
+        lblManageItems.setStyle("-fx-font: 20 arial;");
+        Label lblVendorName = new Label("Vendor Name:");
+        Label lblFirstName = new Label("First Name:");
+        Label lblLastName = new Label("Last Name:");
+        Label lblPhone = new Label("Phone Number:");
+        Label lblAddress = new Label("Address: ");
+        Label lblemail = new Label("Email: ");
+        Label lblbusName = new Label("Business Name: ");
+        Label lblQuantity = new Label("How many?");
+        Label lblcontractorNumber = new Label("Contractor Number: ");
+        Button btnCus = new Button("Manage Customers");
+        Button btnItem = new Button("Manage Items");
+        Button btnSale = new Button("Enter Sale");
+        Button btnVendor = new Button("Manage Vendors");
+        Button btnPrint = new Button("Print Report");
+        Button btnExit = new Button("Exit");
+        Button btnManCust = new Button("Edit Customer");
+        Button btnCreateCust = new Button("Create Customer");
+        Button btnBusCust = new Button("Business Customer");
+        Button btnIndCust = new Button("Individual Customer");
+        Button btnEditVendor = new Button("Edit Vendor");
+        Button btnCreateVendor = new Button("Create Vendor");
+        Button btnCreateVendor2 = new Button("Create Vendor");
+        Button btnCreateItem = new Button("Create Item");
+        Button btnEditItem = new Button("Edit Item");
+        Button btnMain = new Button("Main Menu");
+        Button btnEditFname = new Button("First Name:");
+        Button btnEditLname = new Button("Last Name");
+        Button btnEditEmailAddress = new Button("Address:");
+        Button btnPhoneNumber = new Button("Phone Number");
+        Button btnEditIName = new Button("Item Name");
+        Button btnEditIWeight = new Button("Item Weight");
+        Button btnEditIDesc = new Button("Item Description");
+        Button btnEditIQuantity = new Button("Item Quantity");
+        Button btnEditIPurchPrice = new Button("Purchase Price");
+        Button btnEditISalePrice = new Button("Sale Price");
+        Button btnReport1 = new Button("Purchase History for a Customer");
+        Button btnReport2 = new Button("Purchase History of an Item");
+        Button btnReport3 = new Button("Current Inventory Levels");
+        Button btnReport4 = new Button("Purchase History of a Vendor");
+        Button btnSaleMore = new Button("Add more items to the sale?");
+        Button editVendorName = new Button("Edit Vendor Name");
+        Button editVendorAdd = new Button("Edit Vendor Address");
+        Button editVendorPhone = new Button("Edit Vendor Phone");
+        Button editVendor = new Button("Complete Edit");
+         Button editItemVendor = new Button("Edit Item's Vendor");
+        Label  lbleditItemVendor = new Label("Edit Item's Vendor: ");
+        CheckBox businessCust = new CheckBox("Business Customer");
+        CheckBox addNotes = new CheckBox("Add Notes");
+        Button submit = new Button("Submit");
+        Button submit2 = new Button("Submit");
+        Label display2 = new Label("");
+        Label display = new Label("");
+        //Label itemDisplay = new Label("");
+        Label extra = new Label("");
+        TextField vendorInputField = new TextField();
+        TextField inputField = new TextField();
+        TextField inputField2 = new TextField();
+        TextField inputField3 = new TextField();
+        TextField firstName = new TextField();
+        TextField lastName = new TextField();
+        TextField address = new TextField();
+        TextField phoneNumber = new TextField();
+        TextField email = new TextField();
+        TextField busName = new TextField();
+        TextField contractorNumber = new TextField();
+        TextField itemName = new TextField();
+        TextField itemWeight = new TextField();
+        TextField itemDescription = new TextField();
+        TextField itemQuantity = new TextField();
+        TextField itemPurchPrice = new TextField();
+        TextField itemSalePrice = new TextField();
+        TextField reportOneField = new TextField();
+        TextField reportTwoField = new TextField();
+        TextField reportThreeField = new TextField();
+        TextField qField = new TextField();
+        Label lblItemName = new Label("Item Name");
+        Label lblItemWeight = new Label("Item Weight");
+        Label lblItemQuantity = new Label("Item Quantity");
+        Label lblItemDescription = new Label("Item Description");
+        Label lblItemPurchPrice = new Label("Item Purchase Price");
+        Label lblItemSalePrice = new Label("Item Sale Price");
+        TextField vendorName = new TextField();
+        TextField vendorAddress = new TextField();
+        TextField vendorPhone = new TextField();
+
+        TextArea itemDisplay = new TextArea();
+        ScrollPane scrollPane = new ScrollPane(itemDisplay);
+        TextArea customerDisplay = new TextArea();
+        ScrollPane customerScrollPane = new ScrollPane(customerDisplay);
+        TextArea vendorDisplay = new TextArea();
+        ScrollPane vendorScrollPane = new ScrollPane(vendorDisplay);
+
+        //Testing
+        Button btnNext1 = new Button("Next");
+        Button btnNext2 = new Button("Next");
+        Button btnNext3 = new Button("Next");
+        Button btnNextV = new Button("Next");
+        Button btnNextVend = new Button("Next");
+        Button btnNext4 = new Button("Next");
+        Button btnNext5 = new Button("Next");
+        Button btnSubmitChange = new Button("Submit Change");
+        Button btnSubmitChangeItem = new Button("Submit Change");
+        Button btnSubmitChangeCust = new Button("Submit Change");
+        Button submitCreateItem = new Button("Create Item");
+        ComboBox cmboCustomers = new ComboBox(Customer.obsCustomerlist);
+        ComboBox cmboCustomerReport = new ComboBox(Customer.obsCustomerlist);
+        ComboBox cmboVendor = new ComboBox(Vendor.obsVendorlist);
+        ComboBox cmboVendorReport = new ComboBox(Vendor.obsVendorlist);
+        ComboBox cmboVendor2 = new ComboBox(Vendor.obsVendorlist);
+        ComboBox cmboVendorEditItem = new ComboBox(Vendor.obsVendorlist);
+        ComboBox cmboItems = new ComboBox(Item.obsItemList);
+        ComboBox cmboItemReport = new ComboBox(Item.obsItemList);
+        ComboBox cmboSale = new ComboBox(Sale.obsSalelist);
+        TextArea txtNotes = new TextArea();
+        TextArea txtNotesField = new TextArea();
+        Label lblSelectVendor = new Label("Select a Vendor:");
+        
+        Button btnEditNotes = new Button("Edit Notes");
+        Button btnClearNotes = new Button("Clear Notes");
+          Alert alert = new Alert(AlertType.INFORMATION);
+              alert.setTitle("Error!");
+              alert.setHeaderText("Please Enter Data");
+
+        //Creating a Pane
+        GridPane primaryPane = new GridPane();
+        primaryPane.setAlignment(Pos.CENTER);   //Set alignment for the form
+        primaryPane.add(lblWelcome, 0,0);
+        primaryPane.add(lblMenu, 0, 1);    //first number is column, second is row
+        primaryPane.add(btnCus, 0, 2);
+        primaryPane.add(btnItem, 0, 3);
+        primaryPane.add(btnSale, 0, 4);
+        primaryPane.add(btnVendor, 0, 5);
+        primaryPane.add(btnPrint, 0, 6);
+        primaryPane.add(btnExit, 0, 7);
+        //Create a Scene
+        Scene primaryScene = new Scene(primaryPane, 700, 600);
+        //Set properties for the stage
+        primaryStage.setTitle("Valley Depot");
+        primaryStage.setScene(primaryScene);
+        primaryStage.show();
+        primaryPane.setHgap(10);
+        primaryPane.setVgap(15);
+        
+        btnSale.setOnAction(e ->{
+           primaryPane.getChildren().clear();
+           primaryPane.setAlignment(Pos.CENTER);
+           lblHeader.setText("Enter Sale");
+           primaryPane.add(lblHeader,0,0);
+           lblMenu.setText("Please select the customer");
+           primaryPane.add(lblMenu,0,1);
+           primaryPane.add(cmboCustomerReport,0,2);
+           primaryPane.add(extra, 0, 4);
+           primaryPane.add(btnNext4,0,5);
+        });
+        btnNext4.setOnAction( e ->{
+           int checker  = checkInput(cmboCustomerReport);
+           if (checker != 1){
+               extra.setText("Please select a customer");
+           }
+           else{
+           tempID = activeId;
+           primaryPane.getChildren().clear();
+           primaryPane.setAlignment(Pos.CENTER);
+           lblMenu.setText("Please select an item");
+           primaryPane.add(lblMenu,0,0);
+           primaryPane.add(cmboItemReport,0,1);
+           
+           primaryPane.add(lblQuantity, 0, 3);
+           primaryPane.add(qField, 0, 4);
+           primaryPane.add(btnSaleMore, 0, 5);//keeps current
+           primaryPane.add(btnNext5,1,5); // ends transactions
+           }
+        });
+        
+        btnSaleMore.setOnAction( e ->{                                          //add more sales
+           int checker = checkInputItems(cmboItemReport);
+           if (checker != 1){
+               extra.setText("Please select an item and quantity");
+            }
+           for(int i = 0; i<itemList.length; i++){
+               if(activeId.equals(itemList[i].itemId)){
+                   itemSold = itemList[i];
+                   System.out.println(itemSold);
+                  
+               }
+           }
+           double quantity = Double.parseDouble(qField.getText());
+           
+           saleList = addSale(saleTracker, transaction,tempID, itemSold, quantity);
+            System.out.println(itemSold);
+           
+           cmboItemReport.getSelectionModel().clearSelection();
+           System.out.println(itemSold);
+           qField.clear();
+           primaryPane.getChildren().clear();
+           primaryPane.setAlignment(Pos.CENTER);
+           lblMenu.setText("Please select an item");
+           primaryPane.add(lblMenu,0,0);
+           primaryPane.add(cmboItemReport,0,1);
+           
+           primaryPane.add(lblQuantity, 0, 3);
+           primaryPane.add(qField, 0, 4);
+           primaryPane.add(btnSaleMore, 0, 5);
+           primaryPane.add(btnNext5,1,5); //method will add sale id but keep in same transaction
+        });
+         btnNext5.setOnAction(e ->{ //this button ends the transaction
+           int checker = checkInputItems(cmboItemReport);
+           if (checker==1){
+           for(int i = 0; i<itemList.length; i++){
+               if(activeId.equalsIgnoreCase(itemList[i].itemId)){
+                   itemSold = itemList[i];
+               }
+           }
+           cmboItemReport.getSelectionModel().clearSelection();
+           double quantity = Double.parseDouble(qField.getText());
+           qField.clear();
+           saleList = addSale(saleTracker, transaction,tempID, itemSold, quantity);
+           //create receipt
+           primaryPane.getChildren().clear();
+           primaryPane.setAlignment(Pos.CENTER);
+           
+           primaryPane.add(lblMenu,0,0);
+           String receipt = "";
+           receipt += String.format("\n------------------------------------------------------------------------------------------------------\n");
+           receipt += String.format("|Item Name|\t\t|Quantity|\t\t|Sale Price|\t|Total Cost|\t|Date|\n");
+           receipt += String.format("------------------------------------------------------------------------------------------------------\n");
+           for(int i = 0; i<saleList.length;i++){
+               if(saleList[i].transaction == transaction){
+                   receipt += Sale.printReceipt(saleList[i]);
+               }
+           }
+           lblMenu.setText(receipt);
+           primaryPane.add(btnMain, 0, 5);
+           transaction++;
+           }
+           
+           
+        });
+
+        btnPrint.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            lblHeader.setText("Print Report");
+            primaryPane.add(lblHeader, 0, 0);
+            display2.setText(" Please select the report you would like to view");
+            primaryPane.add(display2, 0, 1);
+            primaryPane.add(btnReport1, 0, 2);
+            primaryPane.add(btnReport2, 0, 3);
+            primaryPane.add(btnReport3, 0, 4);
+        });
+        btnReport1.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please select the ID of the customer:");
+            primaryPane.add(lblMenu, 0, 0);
+            primaryPane.add(cmboCustomerReport, 0, 1);
+
+            primaryPane.add(extra, 0, 4);
+            primaryPane.add(btnNext2, 0, 5);
+
+            extra.setText("");
+        });
+        btnNext2.setOnAction(e -> {
+            int check = checkInput(cmboCustomerReport);
+            if (check == 1) {
+                primaryPane.getChildren().clear();
+                cmboCustomers.getSelectionModel().clearSelection();
+
+              
+                primaryPane.setAlignment(Pos.CENTER);
+                lblMenu.setText("");
+                primaryPane.add(lblMenu, 0, 0);
+                reportOne(activeId, primaryPane, lblMenu, btnMain);
+            } else {
+                extra.setText("Not found. Please try again");
+            }
+        });
+        btnReport2.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please select the ID of the item:");
+            primaryPane.add(lblMenu, 0, 0);
+
+            primaryPane.add(cmboItemReport, 0, 3);
+
+            primaryPane.add(extra, 0, 4);
+            extra.setText("");
+            primaryPane.add(btnNext3, 0, 5);
+        });
+
+        btnNext3.setOnAction(e -> {
+            String ID = checkInputItemsReport(cmboItemReport);
+            
+                primaryPane.getChildren().clear();
+
+                primaryPane.setAlignment(Pos.CENTER);
+                lblMenu.setText("");
+                primaryPane.add(lblMenu, 0, 0);
+                reportTwo(ID, primaryPane, lblMenu, btnMain, reportOneField);
+                 cmboItemReport.getSelectionModel().clearSelection();
+        });
+        btnReport3.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            primaryPane.add(lblMenu, 0, 0);
+            reportThree(primaryPane, lblMenu, btnMain);
+
+        });
+
+        btnReport4.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please select the ID of the vendor:");
+            primaryPane.add(lblMenu, 0, 0);
+            primaryPane.add(cmboVendorReport, 0, 1);
+
+            primaryPane.add(extra, 0, 4);
+            primaryPane.add(btnNext4, 0, 5);
+
+            extra.setText("");
+        });
+        //Create and Edit Customer
+        btnCus.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);   //Set alignment for the form
+            primaryPane.add(lblHeader, 0,0);
+            lblMenu.setText("Please select an option:");
+            primaryPane.add(lblMenu, 0,1);
+            primaryPane.add(btnManCust, 0, 4);
+            primaryPane.add(btnCreateCust, 0, 5);
+        });
+
+        //Edit and Create Vendor
+        btnVendor.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblHeader.setText("Manage Vendor");
+            primaryPane.add(lblHeader, 0, 0);
+            lblMenu.setText("Please select an option:");
+            primaryPane.add(lblMenu, 0,1);
+            primaryPane.add(btnEditVendor, 0, 2);
+            primaryPane.add(btnCreateVendor, 0, 3);
+        });
+
+        //Create vendor button
+        btnCreateVendor.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblHeader.setText("Create Vendor");
+            primaryPane.add(lblHeader, 0, 0);
+            primaryPane.add(lblVendorName, 0, 2);
+            primaryPane.add(lblPhone, 0, 3);
+            primaryPane.add(lblAddress, 0, 4);
+            primaryPane.add(vendorName, 1, 2);
+            primaryPane.add(vendorPhone, 1, 4);
+            primaryPane.add(vendorAddress, 1, 3);
+            primaryPane.add(btnCreateVendor2, 0, 5);
+
+        });
+
+       btnCreateVendor2.setOnAction(e -> {
+            //.trim().length() == 0 ||
+            if(vendorName.getText().trim().length() == 0 || vendorPhone.getText().trim().length() == 0 || vendorAddress.getText().trim().length() == 0 )
+            {
+                alert.showAndWait();
+            }
+            else
+            {
+               createVendor(vendorName.getText(), vendorPhone.getText(), vendorAddress.getText());
+               showMainMenu(lblWelcome, lblMenu, btnCus, btnItem, btnSale, btnVendor, btnPrint, btnExit, primaryPane); 
+            }
+
+        });
+
+        btnCreateCust.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);   //Set alignment for the form
+            lblHeader.setText("Create Customer");
+            primaryPane.add(lblHeader, 0, 0);
+            primaryPane.add(businessCust, 0, 1);
+            primaryPane.add(addNotes, 1, 1);
+            primaryPane.add(firstName, 1, 2);
+            primaryPane.add(lastName, 1, 3);
+            primaryPane.add(address, 1, 4);
+            primaryPane.add(email, 1, 5);
+            primaryPane.add(phoneNumber, 1, 6);
+            primaryPane.add(submit, 1, 9);
+            primaryPane.add(btnMain, 0, 9);
+            primaryPane.add(lblFirstName, 0, 2);
+            primaryPane.add(lblLastName, 0, 3);
+            primaryPane.add(lblAddress, 0, 4);
+            primaryPane.add(lblemail, 0, 5);
+            primaryPane.add(lblPhone, 0, 6);
+            primaryPane.add(busName, 1, 7);
+            primaryPane.add(contractorNumber, 1, 8);
+            primaryPane.add(lblbusName, 0, 7);
+            primaryPane.add(lblcontractorNumber, 0, 8);
+            busName.setVisible(false);
+            contractorNumber.setVisible(false);
+            lblbusName.setVisible(false);
+            lblcontractorNumber.setVisible(false);
+            txtNotes.setPrefHeight(100);
+            //txtNotes.setPrefWidth(400);
+            primaryPane.add(txtNotes, 0, 10, 2, 2);
+            txtNotes.setVisible(false);
+
+        });
+        businessCust.setOnAction(e -> {
+            if (busName.isVisible() == false) {
+                busName.setVisible(true);
+                contractorNumber.setVisible(true);
+                lblbusName.setVisible(true);
+                lblcontractorNumber.setVisible(true);
+            } else if (busName.isVisible() == true) {
+                busName.setVisible(false);
+                contractorNumber.setVisible(false);
+                lblbusName.setVisible(false);
+                lblcontractorNumber.setVisible(false);
+            }
+        });
+
+        addNotes.setOnAction(e -> {
+
+            if (txtNotes.isVisible() == false) {
+                txtNotes.setVisible(true);
+            } else if (txtNotes.isVisible() == true) {
+                txtNotes.setVisible(false);
+            }
+
+        });
+
+        submit.setOnAction(e -> {
+            //.trim().length() == 0 ||
+            if(firstName.getText().trim().length() == 0 ||lastName.getText().trim().length() == 0 
+                    || address.getText().trim().length() == 0 || 
+                    phoneNumber.getText().trim().length() == 0 || 
+                    email.getText().trim().length() == 0 || 
+                    busName.getText().trim().length() == 0 ||
+                    contractorNumber.getText().trim().length() == 0 
+                    || txtNotes.getText().trim().length() == 0)
+            {
+                alert.showAndWait();
+            }
+            else
+            {
+              if (businessCust.isSelected()) {
+                customerList = createCustomer(customerList, firstName.getText(), lastName.getText(), address.getText(),
+                        phoneNumber.getText(), email.getText(), businessCust.isSelected(), busName.getText(), contractorNumber.getText(), txtNotes.getText());
+                customerTracker++;
+            } else {
+                customerList = createCustomer(customerList, firstName.getText(), lastName.getText(), address.getText(),
+                        phoneNumber.getText(), email.getText(), businessCust.isSelected(), txtNotes.getText());
+                customerTracker++;
+            }
+            firstName.clear();
+            lastName.clear();
+            address.clear();
+            phoneNumber.clear();
+            email.clear();
+            businessCust.setSelected(false);
+            contractorNumber.clear();
+            busName.clear();
+            addNotes.setSelected(false);
+            primaryPane.getChildren().clear();
+            lblMenu.setText("Successful\nSelect to return to main menu");
+            primaryPane.add(btnMain, 0, 2);
+            primaryPane.add(lblMenu, 0, 1);  
+            }
+            
+        });
+
+        //Edit vendor button
+        btnEditVendor.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            primaryPane.add(vendorScrollPane, 0, 0);
+            displayVendors(vendorDisplay);
+            lblMenu.setText("Please select the ID of the vendor to edit:");
+            primaryPane.add(lblMenu, 0, 1);
+            extra.setText("");
+            primaryPane.add(extra, 0, 4);
+            primaryPane.add(btnNextVend, 0, 5);
+            primaryPane.add(cmboVendor, 0, 2);
+        });
+        btnNextVend.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            primaryPane.add(editVendorName, 0, 0);
+            primaryPane.add(editVendorAdd, 0, 1);
+            primaryPane.add(editVendorPhone, 0, 2);
+        });
+        editVendorName.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please enter the correction:");
+            primaryPane.add(lblMenu, 0, 0);
+            primaryPane.add(vendorInputField, 0, 1);
+            primaryPane.add(editVendor, 0, 2);
+            updated = "business";
+        });
+        editVendorAdd.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please enter the correction:");
+            primaryPane.add(lblMenu, 0, 0);
+            primaryPane.add(vendorInputField, 0, 1);
+            primaryPane.add(editVendor, 0, 2);
+            updated = "address";
+        });
+        editVendorPhone.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please enter the correction:");
+            primaryPane.add(lblMenu, 0, 0);
+            primaryPane.add(vendorInputField, 0, 1);
+            primaryPane.add(editVendor, 0, 2);
+            updated = "phone";
+        });
+        editVendor.setOnAction(e -> {
+            if(inputField2.getText().trim().length() == 0)
+            {
+                alert.showAndWait();
+            }
+            else
+            {
+              checkInputVendor(cmboVendor);
+            updateInfoVendor(updated, vendorInputField);
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            showMainMenu(lblWelcome, lblMenu, btnCus, btnItem, btnSale, btnVendor, btnPrint, btnExit, primaryPane);  
+            }
+            
+            
+        });
+
+        btnNextV.setOnAction(e -> {
+
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please select edit options:");
+            primaryPane.add(lblMenu, 0, 0);
+            primaryPane.add(btnEditFname, 0, 1);
+            primaryPane.add(btnEditLname, 0, 1);
+
+            primaryPane.add(btnEditEmailAddress, 0, 2);
+            primaryPane.add(btnPhoneNumber, 0, 3);
+            primaryPane.add(btnEditNotes, 0, 4);
+            primaryPane.add(btnClearNotes, 0, 5);
+            primaryPane.add(txtNotesField, 0, 6);
+            txtNotesField.setPrefHeight(200);
+            txtNotesField.setPrefWidth(400);
+
+            for (int i = 0; i < customerList.length; i++) {
+                if (customerList[i].customerId.equals(activeId)) {
+                    txtNotesField.setText(customerList[i].notes);
+                    if (customerList[i].notes.equals("")) {
+                        primaryPane.getChildren().remove(txtNotesField);
+                    }
+
+                }
+            }
+
+        });
+
+        //edit customers button 
+        btnManCust.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please select the ID of the customer to edit:");
+            primaryPane.add(lblMenu, 0, 2);
+
+            extra.setText("");
+            primaryPane.add(extra, 0, 4);
+            primaryPane.add(customerScrollPane, 0, 0);
+            displayCurrentCustomers(customerDisplay);
+            primaryPane.add(btnNext1, 0, 5);
+
+            primaryPane.add(cmboCustomers, 0, 3);
+        });
+
+        //customer edit screen--------------------------------------------------------------------------------------------------------------------------------------------------
+        //add notes field
+        //txtNotesField
+        btnNext1.setOnAction(e -> {
+            int check = checkInput(cmboCustomers);
+            if (check == 1) {
+                inputField.clear();
+                cmboCustomers.getSelectionModel().clearSelection();
+                primaryPane.getChildren().clear();
+                primaryPane.setAlignment(Pos.CENTER);
+                lblMenu.setText("Please select edit option:");
+                primaryPane.add(lblMenu, 0, 0);
+                primaryPane.add(btnEditFname, 0, 1);
+                primaryPane.add(btnEditLname, 0, 2);
+                primaryPane.add(btnEditEmailAddress, 0, 3);
+                primaryPane.add(btnPhoneNumber, 0, 4);
+                primaryPane.add(btnEditNotes, 0, 5);
+                primaryPane.add(btnClearNotes, 0, 6);
+                primaryPane.add(txtNotesField, 0, 7);
+                txtNotesField.setPrefHeight(200);
+                txtNotesField.setPrefWidth(400);
+
+                for (int i = 0; i < customerList.length; i++) {
+                    if (customerList[i].customerId.equals(activeId)) {
+                        txtNotesField.setText(customerList[i].notes);
+                        if (customerList[i].notes.equals("")) {
+                            primaryPane.getChildren().remove(txtNotesField);
+                        }
+
+                    }
+                }
+
+            } else {
+                extra.setText("Not found. Please try again");
+            }
+        });
+        btnEditFname.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please type in the updated version:");
+            primaryPane.add(lblMenu, 0, 0);
+            primaryPane.add(inputField2, 0, 3);
+            primaryPane.add(btnSubmitChange, 0, 4);
+
+            updated = "first";
+        });
+        btnEditLname.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please type in the updated version:");
+            primaryPane.add(lblMenu, 0, 0);
+            primaryPane.add(inputField2, 0, 3);
+            primaryPane.add(btnSubmitChange, 0, 4);
+            updated = "last";
+        });
+        btnEditEmailAddress.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please type in the updated version:");
+            primaryPane.add(lblMenu, 0, 0);
+            primaryPane.add(inputField2, 0, 3);
+            primaryPane.add(btnSubmitChange, 0, 4);
+            updated = "address";
+        });
+        btnPhoneNumber.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please type in the updated version:");
+            primaryPane.add(lblMenu, 0, 0);
+            primaryPane.add(inputField2, 0, 3);
+            primaryPane.add(btnSubmitChange, 0, 4);
+            updated = "phone";
+        });
+
+        btnEditNotes.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please type in the updated version:");
+            primaryPane.add(lblMenu, 0, 0);
+            primaryPane.add(inputField2, 0, 3);
+            primaryPane.add(btnSubmitChange, 0, 4);
+            updated = "notes";
+        });
+
+        btnClearNotes.setOnAction(e -> {
+            for (int i = 0; i < customerList.length; i++) {
+                if (customerList[i].customerId.equals(activeId)) {
+                    //txtNotesField.setText(customerList[i].notes);
+                    customerList[i].notes = "";
+                    primaryPane.getChildren().remove(txtNotesField);
+
+                }
+            }
+
+        });
+        btnSubmitChangeCust.setOnAction(e -> {
+            //checkInputVendor(cmboVendor);
+            //updateInfoVendor(updated,inputField2);
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            showMainMenu(lblWelcome, lblMenu, btnCus, btnItem, btnSale, btnVendor, btnPrint, btnExit, primaryPane);
+        });
+
+        btnSubmitChange.setOnAction(e -> {
+            
+            if(inputField2.getText().trim().length() == 0)
+            {
+                alert.showAndWait();
+            }
+            else
+            {
+              updateInfo(updated, inputField2);
+            //checkInputVendor(cmboVendor);
+            //updateInfoVendor(updated,inputField2);
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            showMainMenu(lblWelcome, lblMenu, btnCus, btnItem, btnSale, btnVendor, btnPrint, btnExit, primaryPane);  
+            }
+            
+        });
+        //Create Item Section of menu
+        btnItem.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);   //Set alignment for the form
+            lblHeader.setText("Manage Item");
+            primaryPane.add(lblHeader, 0, 0);
+            lblMenu.setText("Please select an option:");
+            primaryPane.add(lblMenu, 0, 1);
+            primaryPane.add(btnCreateItem, 0, 2);
+            primaryPane.add(btnEditItem, 0, 3);
+        });
+
+        //Create Item
+       btnCreateItem.setOnAction(e -> {
+          primaryPane.getChildren().clear();
+          primaryPane.setAlignment(Pos.CENTER);   
+          lblHeader.setText("Create Item");
+          primaryPane.add(lblHeader, 0, 0);
+          primaryPane.add(itemName, 1, 2);
+          primaryPane.add(itemWeight, 1, 3);
+          primaryPane.add(itemDescription, 1, 5);
+          primaryPane.add(itemQuantity, 1, 4);
+          primaryPane.add(itemPurchPrice, 1, 6);
+          primaryPane.add(itemSalePrice, 1, 7);
+          primaryPane.add(submitCreateItem,1,9);
+          primaryPane.add(btnMain, 0,9);
+          primaryPane.add(lblItemName,0,2);
+          primaryPane.add(lblItemWeight,0,3);
+          primaryPane.add(lblItemQuantity,0,4);
+          primaryPane.add(lblItemDescription,0,5);
+          primaryPane.add(lblItemPurchPrice,0,6);
+          primaryPane.add(lblItemSalePrice,0,7);
+          primaryPane.add(cmboVendor2,1,8);
+          primaryPane.add(lblSelectVendor,0,8);
+        });
+
+    
+        submitCreateItem.setOnAction(e -> {
+            //.trim().length() == 0 ||
+            if(itemName.getText().trim().length() == 0 ||
+                    itemWeight.getText().trim().length() == 0 || 
+                    itemDescription.getText().trim().length() == 0 ||
+                    itemQuantity.getText().trim().length() == 0 || 
+                    itemPurchPrice.getText().trim().length() == 0 || 
+                    itemSalePrice.getText().trim().length() == 0)
+            {
+                alert.showAndWait();
+            }
+            else
+            {
+               checkInputVendor(cmboVendor2);
+              createItem(itemName.getText(),Double.parseDouble(itemWeight.getText())
+                      ,itemDescription.getText(),Double.parseDouble(itemQuantity.getText())
+                      , Double.parseDouble(itemPurchPrice.getText()),
+                      Double.parseDouble(itemSalePrice.getText()),activeId);
+            itemName.clear();
+            itemWeight.clear();
+            itemDescription.clear();
+            itemQuantity.clear();
+            itemPurchPrice.clear();
+            itemSalePrice.clear();
+            cmboVendor2.getSelectionModel().clearSelection();
+            primaryPane.getChildren().clear();
+            lblMenu.setText("Successful\nSelect to return to main menu");
+            primaryPane.add(btnMain,0,2);
+            primaryPane.add(lblMenu,0,1);     
+            }
+              
+        });
+
+     btnEditItem.setOnAction(e -> { 
+          primaryPane.getChildren().clear();
+          primaryPane.setAlignment(Pos.CENTER);
+          displayItems(itemDisplay);
+          primaryPane.add(scrollPane,0,0);
+          primaryPane.add(cmboItems,0,3);
+          primaryPane.add(btnEditIName,0,4);
+          primaryPane.add(btnEditIWeight,0,5);
+          primaryPane.add(btnEditIDesc,0,6);
+          primaryPane.add(btnEditIQuantity,0,7); 
+          primaryPane.add(btnEditIPurchPrice,0,8);
+          primaryPane.add(btnEditISalePrice,0,9);         
+          primaryPane.add(editItemVendor,0,10);
+          extra.setText("");
+          primaryPane.add(extra,0,10);
+          
+          });
+     
+        editItemVendor.setOnAction( e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            primaryPane.add(lbleditItemVendor, 0, 0);
+            primaryPane.add(cmboVendorEditItem,1,0);
+            primaryPane.add(btnSubmitChangeItem,0,2);
+            updated = "vendor";
+            
+            
+          });
+
+        btnEditIName.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please type in the updated version:");
+            primaryPane.add(lblMenu, 0, 0);
+            primaryPane.add(inputField3, 0, 3);
+            primaryPane.add(btnSubmitChangeItem, 0, 4);
+            updated = "name";
+        });
+        btnEditIWeight.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please type in the updated version:");
+            primaryPane.add(lblMenu, 0, 0);
+            primaryPane.add(inputField3, 0, 3);
+            primaryPane.add(btnSubmitChangeItem, 0, 4);
+
+            updated = "weight";
+        });
+        btnEditIDesc.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please type in the updated version:");
+            primaryPane.add(lblMenu, 0, 0);
+            primaryPane.add(inputField3, 0, 3);
+            primaryPane.add(btnSubmitChangeItem, 0, 4);
+
+            updated = "description";
+        });
+        btnEditIQuantity.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please type in the updated version:");
+            primaryPane.add(lblMenu, 0, 0);
+            primaryPane.add(inputField3, 0, 3);
+            primaryPane.add(btnSubmitChangeItem, 0, 4);
+
+            updated = "quantity";
+        });
+        btnEditIPurchPrice.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please type in the updated version:");
+            primaryPane.add(lblMenu, 0, 0);
+            primaryPane.add(inputField3, 0, 3);
+            primaryPane.add(btnSubmitChangeItem, 0, 4);
+
+            updated = "purchasePrice";
+        });
+        btnEditISalePrice.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.setAlignment(Pos.CENTER);
+            lblMenu.setText("Please type in the updated version:");
+            primaryPane.add(lblMenu, 0, 0);
+            primaryPane.add(inputField3, 0, 3);
+            primaryPane.add(btnSubmitChangeItem, 0, 4);
+
+            updated = "salePrice";
+        });
+
+        btnSubmitChangeItem.setOnAction(e -> {
+            if(inputField3.getText().trim().length() == 0)
+            {
+                alert.showAndWait();
+            }
+            else
+            {
+            checkInputItems(cmboItems);
+            updateInfoItem(updated, inputField3,cmboVendorEditItem);
+            cmboItems.getSelectionModel().clearSelection();
+            showMainMenu(lblWelcome, lblMenu, btnCus, btnItem, btnSale, btnVendor, btnPrint, btnExit, primaryPane);
+            }
+            
+            
+        });
+
+        //create main menu
+        btnMain.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            lblMenu.setText("Please select a menu option");
+            primaryPane.setAlignment(Pos.CENTER);   //Set alignment for the form
+            primaryPane.add(lblWelcome, 0, 0);
+            primaryPane.add(lblMenu, 0, 1);    //first number is column, second is row
+            primaryPane.add(btnCus, 0, 2);
+            primaryPane.add(btnItem, 0, 3);
+            primaryPane.add(btnSale, 0, 4);
+            primaryPane.add(btnVendor, 0, 5);
+            primaryPane.add(btnPrint, 0, 6);
+            primaryPane.add(btnExit, 0, 7);
+        });
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    public static void addInfo() {
+        customerList = new Customer[4];
+        itemList = new Item[10];
+        saleList = new Sale[5];
+        vendorList = new Vendor[3];
+        //Prepopulated data
+        vendorList[0] = new Vendor("Wal-Mart", "128 Wallaby Way", "123-445-6789");
+        vendorList[1] = new Vendor("Target", "67 Rummy Ln", "987-654-8321");
+        vendorList[2] = new Vendor("CompanyC", " 400 Ovaltine Dr.", "543-216-0789");
+        customerList[0] = new Customer("Nicholas", "Coffman", "email@email.com", "1234 runaway rd", "123-123-2342");
+        customerList[1] = new Customer("Jonathan", "Doan", "doan@dukes.com", "765 pear wood", "123-432-1234");
+        customerList[2] = new Customer("Shu", "Mishra", "mishra@dukes.com", "23 peach wood", "654-456-8765");
+        customerList[3] = new Customer("Manfred", "Hueskes", "h@dukes.com", "34 duke way", "654-345-7654");
+        itemList[0] = new Item("Whiskey", 5.0, "Drink of Choice", 10, 10.0, 15.0, vendorList[0]);
+        itemList[1] = new Item("Gin", 3.0, "Drink of Choice", 10, 10.0, 15.0, vendorList[1]);
+        itemList[2] = new Item("Vodka", 4.2, "Drink of Choice", 10, 10.0, 15.0, vendorList[2]);
+        itemList[3] = new Item("Hennesy", 2.1, "Drink of Choice", 10, 10.0, 15.0, vendorList[1]);
+        itemList[4] = new Item("Jack Daniels", 2.7, "Drink of Choice", 10, 10.0, 15.0, vendorList[0]);
+        itemList[5] = new Item("Captain Morgan", 3.1, "Drink of Choice", 10, 10.0, 15.0, vendorList[2]);
+        itemList[6] = new Item("Cider", 8.4, "Drink of Choice", 10, 10.0, 15.0, vendorList[0]);
+        itemList[7] = new Item("Beer", 5.0, "Drink of Choice", 10, 10.0, 15.0, vendorList[1]);
+        itemList[8] = new Item("Turkey", 3.0, "Thanksgiving bird", 10, 10.0, 15.0, vendorList[0]);
+        itemList[9] = new Item("Apples", 1.0, "Quality healthy snack", 10, 10.0, 15.0, vendorList[0]);
+        saleList[0] = new Sale(itemList[0], 2, "7/30/18", "c0", 1);
+        saleList[1] = new Sale(itemList[1], 2, "8/20/18", "c1", 1);
+        saleList[2] = new Sale(itemList[2], 2, "9/21/18", "c2", 2);
+        saleList[3] = new Sale(itemList[3], 2, "10/22/18", "c3", 2);
+        saleList[4] = new Sale(itemList[4], 2, "11/1/18", "c3", 2);
+
+    }
+
+    public static void displayCurrentCustomers(TextArea display) {
+        String current = "";
+        current += String.format("%s\t\t%s\t\t%s\t\t\t\t\t%s\n", "Customer Name:", "ID Number:", "E-mail:", "Phone:");
+
+        for (int i = 0; i < customerList.length; i++) {
+            current += String.format("%-20s\t%-3s\t\t\t\t%-20s\t\t%-12s\n",
+                    customerList[i].fname + " " + customerList[i].lname,
+                    customerList[i].customerId, customerList[i].email, customerList[i].phoneNumber);
+        }
+        display.setText(current);
+    }
+
+    public static int checkInputItems(ComboBox cmboItems) {
+
+        int checker = 0;
+        for (int i = 0; i < itemList.length; i++) {
+            if (itemList[i].comboBoxFormat().equals(cmboItems.getSelectionModel().getSelectedItem())) {
+
+                activeId = itemList[i].itemId;
+                checker = 1;
+                return checker;
+            }
+        }
+        return checker;
+    }
+
+    //checks input for customers 
+    public static int checkInput(ComboBox cmboCustomers) {
+
+        int checker = 0;
+        for (int i = 0; i < customerList.length; i++) {
+            if (customerList[i].comboBoxFormat().equals(cmboCustomers.getSelectionModel().getSelectedItem())) {
+                activeId = customerList[i].customerId;
+                checker = 1;
+                return checker;
+            }
+
+        }
+        return checker;
+    }
+
+    public static void checkInputVendor(ComboBox cmboCustomers) {
+
+        for (int i = 0; i < vendorList.length; i++) {
+            if (vendorList[i].comboBoxFormat().equals(cmboCustomers.getSelectionModel().getSelectedItem())) {
+                activeId = vendorList[i].vendorId;
+
+                System.out.println("sdfgfdsdf");
+            }
+
+        }
+
+    }
+    public static String checkInputItemsReport(ComboBox cmboItems) {
+
+        int checker = 0;
+        for (int i = 0; i < itemList.length; i++) {
+            if (itemList[i].comboBoxFormat().equals(cmboItems.getSelectionModel().getSelectedItem())) {
+                
+                activeId = itemList[i].itemId;
+                
+                
+                return itemList[i].itemId;
+            }
+        }
+        return "";
+    }
+
+    public static void updateInfo(String updated, TextField input) {
+        for (int i = 0; i < customerList.length; i++) {
+            if (customerList[i].customerId.equals(activeId)) {
+                if (updated.equals("first")) {
+                    customerList[i].fname = input.getText();
+                    input.clear();
+                } else if (updated.equals("last")) {
+                    customerList[i].lname = input.getText();
+                    Customer.obsCustomerlist.set(i, customerList[i].customerId + "  " + input.getText());
+                    input.clear();
+                } else if (updated.equals("phone")) {
+                    customerList[i].setPhoneNumber(input.getText());
+                    input.clear();
+                } else if (updated.equals("address")) {
+                    customerList[i].email = (input.getText());
+                    input.clear();
+                } else if (updated.equals("notes")) {
+                    customerList[i].setNotes(input.getText());
+                    input.clear();
+                }
+            }
+        }
+    }
+
+    public static void updateInfoVendor(String updated, TextField input) {
+        System.out.println(activeId);
+        for (int i = 0; i < vendorList.length; i++) {
+            if (vendorList[i].vendorId.equals(activeId)) {
+                if (updated.equals("business")) {
+                    vendorList[i].name = input.getText();
+                    Vendor.obsVendorlist.set(i, vendorList[i].vendorId + "  " + input.getText());
+                    input.clear();
+                } else if (updated.equals("address")) {
+                    vendorList[i].setAddress(input.getText());
+
+                    input.clear();
+                } else if (updated.equals("phone")) {
+                    vendorList[i].setPhoneNumber(input.getText());
+                    input.clear();
+                }
+
+            }
+        }
+    }
+
+    public static void updateInfoItem(String updated, TextField input, ComboBox comboBox)
+    {
+        for(int i =0 ; i < itemList.length; i++)
+             {
+                
+                if( itemList[i].itemId.equals(activeId))
+                  {
+                      if (updated.equals("name"))
+                      {
+                      itemList[i].itemName = input.getText();
+                      Item.obsItemList.set(i,itemList[i].itemId + "  " +input.getText());
+                     input.clear();
+                      }
+                      else if (updated.equals("weight"))
+                      {
+                      itemList[i].weight = Double.parseDouble(input.getText());
+                     input.clear();
+                     System.out.println(itemList[i].weight);
+                      }
+                      else if (updated.equals("description"))
+                      {
+                      itemList[i].description=(input.getText());
+                     input.clear();
+                      }
+                      else if (updated.equals( "quantity"))
+                      {
+                      itemList[i].quantity=Double.parseDouble(input.getText());
+                     input.clear();
+                      } 
+                      else if (updated.equals( "salePrice"))
+                      {
+                      itemList[i].salePrice=Double.parseDouble(input.getText());
+                     input.clear();
+                      } 
+                       else if (updated.equals( "purchasePrice"))
+                      {
+                      itemList[i].setPricePaid(Double.parseDouble(input.getText()));
+                     input.clear();
+                      } 
+                       else if (updated.equals( "vendor"))
+                       {
+                          for(int j =0 ; j < vendorList.length; j++)
+             {
+                if( vendorList[j].comboBoxFormat().equals(comboBox.getSelectionModel().getSelectedItem()))
+                   {
+                      itemList[i].vendor = vendorList[j];
+                      
+                     
+                   }
+                
+             } 
+                           
+                       }
+                   }
+             } 
+    }
+    
+    public static Sale[] addSale(int saleTracker, int transaction, String custID, Item itemSold, double numSold)
+    {
+    Sale[] newArray = new Sale[saleList.length+1];
+    for (int i = 0 ;i < saleList.length; i++ )
+        {
+          Sale tempSale = saleList[i];
+          newArray[i] = tempSale;
+        }
+    
+    newArray[newArray.length - 1]  = new Sale(itemSold,numSold, custID,transaction);
+    //newArray[newArray.length-1].itemSold.quantity =- numSold; -- Taken out by Nick, wasnt working. Made a method in constructor.
+    return newArray;
+    
+    }
+    public static Customer[] createCustomer(Customer[] customerArray, String fname, String lname, String address,
+            String phoneNumber, String email, boolean businessCustomer, String notesText) {
+        Customer[] newArray = new Customer[customerTracker + 1];
+        for (int i = 0; i < customerArray.length; i++) {
+            newArray[i] = customerArray[i];
+        }
+        newArray[customerTracker] = new Customer(fname, lname, email, address, phoneNumber);
+        newArray[customerTracker].notes = notesText;
+        return newArray;
+
+    }
+
+    public static Customer[] createCustomer(Customer[] customerArray, String fname, String lname, String address,
+            String phoneNumber, String email, boolean businessCustomer, String businessName, String contractorNumber, String notesText) {
+        Customer[] newArray = new Customer[customerTracker + 1];
+        for (int i = 0; i < customerArray.length; i++) {
+            newArray[i] = customerArray[i];
+        }
+        newArray[customerTracker] = new Contractor(fname, lname, email, phoneNumber, businessName, address, contractorNumber);
+        newArray[customerTracker].notes = notesText;
+        return newArray;
+    }
+
+    public static Vendor[] createVendor(Vendor[] vendorArray, String vendorName, String address, String phoneNumber) {
+        Vendor[] newArray = new Vendor[vendorTracker + 1];
+        for (int i = 0; i < vendorArray.length; i++) {
+            newArray[i] = vendorArray[i];
+        }
+        return newArray;
+    }
+
+    public static void createItem(String itemName, double itemWeight, String itemDescription,
+              double itemQuantity, double itemPurchPrice, double itemSalePrice, String vendorId)
+    {
+        Item[] newArray = new Item[itemList.length+1];
+        int checker = 0 ;
+        for (int i = 0 ;i < itemList.length; i++ )
+        {
+          newArray[i] = itemList[i];
+        }
+        
+        for (int i= 0; i < vendorList.length; i++)
+        {
+            if ( vendorList[i].vendorId.equals(vendorId))
+            {
+                checker = i;
+            }
+        }
+        
+        newArray[itemList.length] = new Item(itemName, itemWeight, itemDescription, itemQuantity,
+            itemPurchPrice, itemSalePrice, vendorList[checker] );
+       itemList = newArray;
+        }
+
+    public static void createVendor(String itemName, String address, String phoneNumber) {
+        Vendor[] newArray = new Vendor[vendorList.length + 1];
+
+        for (int i = 0; i < vendorList.length; i++) {
+            newArray[i] = vendorList[i];
+        }
+
+        newArray[vendorList.length] = new Vendor(itemName, address, phoneNumber);
+        vendorList = newArray;
+    }
+
+    public static void showMainMenu(Label lblWelcome, Label lblMenu, Button btnCus, Button btnItem, Button btnSale,
+            Button btnVendor, Button btnPrint, Button btnExit, GridPane primaryPane) {
+        primaryPane.getChildren().clear();
+        lblMenu.setText("Please select a Menu option");
+        primaryPane.add(lblWelcome, 0,0);
+        primaryPane.add(lblMenu, 0, 1);    //first number is column, second is row
+        primaryPane.add(btnCus, 0, 2);
+        primaryPane.add(btnItem, 0, 3);
+        primaryPane.add(btnSale, 0, 4);
+        primaryPane.add(btnVendor, 0, 5);
+        primaryPane.add(btnPrint, 0, 6);
+        primaryPane.add(btnExit, 0, 7);
+    }
+
+
+    public static void reportOne(String cChoice, GridPane primaryPane, Label lblMenu, Button btnMain) {
+
+        double tCost = 0;
+        String temp = "";
+        String current = "";
+        for (int i = 0; i < saleList.length; i++) {
+            temp = temp.concat(saleList[i].custID);
+        }
+        if (temp.indexOf(cChoice) == -1) {
+            current += ("This customer has not made any purchases!");
+        }
+        // String pos = ""+ String.valueOf(cChoice.charAt(1));
+        String pos = cChoice.substring(1);
+        int pos1 = Integer.parseInt(pos);
+
+        System.out.println("The active ID right now is " + activeId);
+        System.out.println("cChoice variable is " + cChoice);
+        current += String.format("Purchase History for: " + customerList[pos1].fname + " " + customerList[pos1].lname);
+
+        System.out.println(customerList[pos1].notes);
+
+        current += String.format("\n--------------------------------------------------------------------------------------------------\n");
+        current += String.format("|Item Name|\t\t |Quantity Bought|\t\t|Total Cost|\t\t|Date|\n");
+        current += String.format("--------------------------------------------------------------------------------------------------\n");
+        for (int i = 0; i < saleList.length; i++) {
+            if (cChoice.equalsIgnoreCase(saleList[i].custID)) {
+                tCost += saleList[i].itemSold.salePrice * saleList[i].quantity;
+                current += String.format("%-24s\t% -18.0f\t\t\t$%-12.2f\t\t%-8s\n", saleList[i].itemSold.itemName, saleList[i].quantity, ((saleList[i].quantity) * (saleList[i].itemSold.salePrice)), saleList[i].date);
+            }
+        }
+        lblMenu.setText(current);
+
+        primaryPane.add(btnMain, 0, 5);
+
+    }
+
+    public static void reportTwo(String iChoice, GridPane primaryPane, Label lblMenu, Button btnMain, TextField reportTwoField) {
+        System.out.println(activeItem);
+        System.out.println("Testing item report, the current itemid is " + activeItem);
+        String current = "";
+        reportTwoField.clear();
+        current += String.format("---------------------------------------------------------------------------------------------\n");
+        current += String.format("|Item Name|\t\t|CustomerID|\t\t|Date|\t\t |Quantity|\n");
+        current += String.format("----------------------------------------------------------------------------------------------\n");
+        for (int i = 0; i < saleList.length; i++) {
+            if (iChoice.equalsIgnoreCase(saleList[i].itemSold.itemId)) {
+                current += String.format("%-30s\t%-10s\t\t%-13s\t\t%3.0f\n", saleList[i].itemSold.itemName, saleList[i].custID, saleList[i].date, saleList[i].quantity);
+            }
+        }
+        lblMenu.setText(current);
+        primaryPane.add(btnMain, 0, 5);
+
+    }
+
+    public static void reportThree(GridPane primaryPane, Label lblMenu, Button btnMain) {
+        String current = "";
+        current += String.format("------------------------------------------------\nItem Name\t\t\tQuantity\n"
+                + "------------------------------------------------\n");
+        for (int i = 0; i < itemList.length; i++) {
+            current += String.format("%-15s\t\t\t%-4.0f\n", itemList[i].itemName, itemList[i].quantity);
+        }
+        lblMenu.setText(current);
+        primaryPane.add(btnMain, 0, 5);
+
+    }
+
+    public static void displayItems(TextArea itemDisplay)
+      {
+          System.out.println(itemList.length);
+          String current = "";
+          current += String.format("%s\t\t%s\t\t\t%s\t\t%s\t\t%s\t\t%s\n", "Item Id:","Item Name:","Item Quantity:","Purchase:", "Sale Price","Vendor:");
+          for (int i = 0; i < itemList.length; i++)
+          {
+         
+              current += String.format("%-5s\t\t\t%-15s\t\t\t%-3.0f\t\t\t\t$%-5.2f\t\t\t$%-10.2f\t\t%s\n",itemList[i].itemId, itemList[i].itemName,itemList[i].quantity,itemList[i].getPrice(),itemList[i].salePrice,itemList[i].vendor.name);
+              
+          }
+          itemDisplay.setText(current);
+          
+          
+          
+      }
+
+    public static void displayVendors(TextArea itemDisplay) {
+        System.out.println(vendorList.length);
+        String current = "";
+        current += String.format("%s\t\t%s\t\t\t\t%s\t\t\t\t%s\n", "Vendor Id:", "Vendor Name:", "Phone:", "Address:");
+        for (int i = 0; i < vendorList.length; i++) {
+
+            current += String.format("%-5s\t\t\t\t%-30s\t\t%s\t\t%s\n", vendorList[i].vendorId, vendorList[i].name, vendorList[i].getPhone(), vendorList[i].getAddress());
+            
+        }
+        itemDisplay.setText(current);
+
+    }
+
+}
+
