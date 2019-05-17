@@ -66,6 +66,7 @@ public class GUI extends Application {
     Button btnStoreArea = new Button("Create Store Area");
     Button btnTech = new Button("Create Technician");
     Button btnStore = new Button("Create Store");
+    Button btnMService = new Button("Create Service");
     
     // Actions Menu
     Button btnOrder = new Button("Customer Order");
@@ -140,6 +141,7 @@ public class GUI extends Application {
     final ComboBox cmboServiceLvl = new ComboBox(serviceLvl);
     Label lblTown = new Label("Town:");
     TextField txtTown = new TextField();
+    Button btnCreateService = new Button("Create Service");
     
     
     // Order Menu
@@ -161,7 +163,10 @@ public class GUI extends Application {
     TextArea customerDisplay = new TextArea();
     //ScrollPane customerScrollPane = new ScrollPane(customerDisplay);
     
-    // Display Buttons
+    // Display Window
+    Label lblDisplayCustomers = new Label("Select Customer:");
+    Label lblDisplayTech = new Label("Select Technician:");
+    Label lblDisplayStore = new Label("Select Store:");
     Button btnDisplayCustomers = new Button("Display Customer");
     Button btnDisplayTech = new Button("Display Technician");
     Button btnDisplayStore = new Button("Display Store");
@@ -200,7 +205,8 @@ public class GUI extends Application {
         primaryPane.add(btnStoreArea,0, 4);
         primaryPane.add(btnTech, 0, 5);
         primaryPane.add(btnStore, 0, 6);
-        primaryPane.add(btnMain, 0, 7);
+        primaryPane.add(btnMService, 0, 7);
+        primaryPane.add(btnMain, 0, 8);
         
         });
         
@@ -293,6 +299,20 @@ public class GUI extends Application {
             
         });
         
+        // Service
+        btnMService.setOnAction(e -> {
+            primaryPane.getChildren().clear();
+            primaryPane.add(lblSService, 0, 0);
+            primaryPane.add(lblServName, 0, 1);
+            primaryPane.add(txtServName, 1, 1);
+            primaryPane.add(lblServiceLvl, 0, 2);
+            primaryPane.add(cmboServiceLvl, 1, 2);
+            primaryPane.add(lblTown, 0, 3);
+            primaryPane.add(txtTown, 1, 3);
+            primaryPane.add(btnCreateService, 1, 4);
+            primaryPane.add(btnMain, 1, 5);
+        });
+        
         btnCreateSupplier.setOnAction(e -> {
             supplierList.add(new Supplier(txtSName.getText(),
                     txtSAddress.getText(),
@@ -354,6 +374,16 @@ public class GUI extends Application {
            txtStName.clear();
         });
         
+        btnCreateService.setOnAction(e -> {
+            serviceList.add(new Service(txtServName.getText(), (String)cmboServiceLvl.getValue(), 
+            txtTown.getText()));
+            
+            txtServName.clear();
+            cmboServiceLvl.getSelectionModel().clearSelection();
+            txtTown.clear();
+        });
+        
+        
         btnMain.setOnAction(e -> {
             primaryPane.getChildren().clear();
             primaryPane.setAlignment(Pos.CENTER);
@@ -367,14 +397,17 @@ public class GUI extends Application {
         btnDisplay.setOnAction(e -> {
             primaryPane.getChildren().clear();
             primaryPane.setAlignment(Pos.CENTER);
-            primaryPane.add(cmboCust, 0, 0);
-            primaryPane.add(btnDisplayCustomers, 0, 1);
-            primaryPane.add(cmboStore, 0, 2);
-            primaryPane.add(btnDisplayStore, 0, 3);
-            primaryPane.add(cmboTech, 0, 4);
-            primaryPane.add(btnDisplayTech, 0, 5);
+            primaryPane.add(lblDisplayCustomers, 0, 0);
+            primaryPane.add(cmboCust, 1, 0);
+            primaryPane.add(btnDisplayCustomers, 1, 1);
+            primaryPane.add(lblDisplayStore, 0, 2);
+            primaryPane.add(cmboStore, 1, 2);
+            primaryPane.add(btnDisplayStore, 1, 3);
+            primaryPane.add(lblDisplayTech, 0, 4);
+            primaryPane.add(cmboTech, 1, 4);
+            primaryPane.add(btnDisplayTech, 1, 5);
             primaryPane.add(txtOutput, 2, 0, 10, 10);
-            primaryPane.add(btnMain, 0, 11);
+            primaryPane.add(btnMain, 1, 11);
             
         });
         
