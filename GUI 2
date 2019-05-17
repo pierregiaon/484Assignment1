@@ -1,5 +1,5 @@
 package hw1_2;
-
+//THIS IS WITH NOTHING FOR DISPLAY CUSTOMER BUTTON AND WITH DISPLAY TECH BUTTON KIND OF WORKING
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
