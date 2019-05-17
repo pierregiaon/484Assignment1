@@ -8,9 +8,10 @@ import java.util.*;
 public class Service {
     public int serviceID; 
     public static int serviceIDCount = 0; 
-    public String serviceName; 
+    private String serviceName; 
     public String serviceLevel; 
     public String town; 
+    public ArrayList<Technician> addServiceTech = new ArrayList<>(); 
     public static ObservableList obsServ = FXCollections.observableArrayList();
     
   public Service(String serviceName, String serviceLevel, String town) {
@@ -21,6 +22,12 @@ public class Service {
       obsServ.add(this.serviceID + ": " + this.serviceName);
       
   } 
+  public String getServiceName() {
+      return serviceName; 
+  }
+  public void addServiceTech(Technician newTechnician) {
+      addServiceTech.add(newTechnician); 
+  }
   
   public String toString()
   {
@@ -28,4 +35,5 @@ public class Service {
     result += String.format("%3d\t\t\t\t%s\t\t\t%s\t\t\t%s", this.serviceID, this.serviceName, this.serviceLevel, this.town);
     return result;
   }
+}
 }
