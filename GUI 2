@@ -1,9 +1,4 @@
-/*
-Author: Pierre Giaon & Meghana Krishna
-Date: 5/14/2019
-Purpose: 
-*/
-package hw1;
+package hw1_2;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -368,8 +363,9 @@ public class GUI extends Application {
             txtDeptDesc.clear();
         });
         
-        btnCreateTech.setOnAction(e -> {
-            techList.add(new Technician(txtTechName.getText()));
+        btnCreateTech.setOnAction(e -> { //create a technician and add it into the tech array 
+            String name = txtTechName.getText(); 
+            techList.add(new Technician(name));
             
             txtTechName.clear();
         });
@@ -396,13 +392,18 @@ public class GUI extends Application {
             techStoreVar = cmboStore.getSelectionModel().getSelectedIndex(); 
             techList.get(techVar).addService(serviceList.get(techServiceVar)); 
             techList.get(techVar).addStore(storeList.get(techStoreVar)); 
+            
         }); 
         btnDisplayTech.setOnAction(e -> {
             String output = ""; 
             txtOutput.clear(); 
             techVar = cmboTech.getSelectionModel().getSelectedIndex(); 
             output += techList.get(techVar).toString();
+            output += serviceList.get(techServiceVar).toString(); 
+            output += storeList.get(techStoreVar).toString(); 
             txtOutput.setText(output); 
+            //had to add on to the output the toStrings of service and store class to call their version of to string to show 
+            //the service and store data from those arrays with those selected indexes
         });
         
         btnMain.setOnAction(e -> {
@@ -544,4 +545,5 @@ public class GUI extends Application {
     
     
 }
+
 
