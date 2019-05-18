@@ -22,8 +22,10 @@ public class Product {
     public String toString()
     {
         String result = "";
-        result += String.format("%3d\t\t\t\t%s\t\t\t$%3.2f\t\t\t%s", this.productID,
-                this.name, this.price, this.desc);
+        //result += String.format("%3d\t\t\t\t%s\t\t\t$%3.2f\t\t\t%s", this.productID,
+        //        this.name, this.price, this.desc);
+        result += String.format("Product ID: %3d, Product Name: %s, Price: $%3.2f, Description: %s", 
+                this.productID, this.name, this.price, this.desc);
         
         return result;
     }
