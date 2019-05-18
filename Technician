@@ -1,0 +1,64 @@
+package hw1_2;
+import javafx.collections.FXCollections;
+
+import java.text.DecimalFormat;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import java.util.*;
+
+public class Technician {
+   
+    public int techNum; 
+    public static int nextTechID = 0; 
+    public String techName; 
+    public static ObservableList obsTech = FXCollections.observableArrayList();
+    public ArrayList<Service> addService = new ArrayList<>(); 
+    public ArrayList<Store> addStore = new ArrayList<>(); 
+    
+    
+    //public Technician() {
+         //this.techNum = 0; 
+         //this.techName = ""; 
+         
+        
+    //}
+    
+    public Technician(String techName) {
+        this.techName = techName; 
+        this.techNum = nextTechID++; 
+        obsTech.add(this.techNum + ": " + this.techName);
+    }
+    public static int getTechIDCount() {
+        return nextTechID++; 
+    }
+    
+   
+    public void addService(Service newService){
+        addService.add(newService); 
+   
+    }
+    public void addStore(Store newStore) {
+        addStore.add(newStore); 
+    }
+    public int getAddServiceSize() {
+        return addService.size(); 
+    }
+    public int getAddStoreSize() {
+        return addStore.size(); 
+    }
+    public String getAddedServices(int index) {
+        return this.addService.get(index).getServiceName();
+    }
+    public String getAddedStores(int index) {
+        return this.addStore.get(index).getStoreName(); 
+    }
+     public String toString()
+    {
+        String result = "";
+        //result += String.format("%s\t\t%s\t\t\t%s\t\t\t%s\n", "Technician ID:", "Name:");
+        result += String.format("%3d\t\t\t\t%s", this.techNum, this.techName); 
+        
+        return result;
+}
+} 
+
