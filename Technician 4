@@ -56,7 +56,8 @@ public class Technician {
     {
         String result = "";
         //result += String.format("%s\t\t%s\t\t\t%s\t\t\t%s\n", "Technician ID:", "Name:");
-        result += String.format("%3d\t\t\t\t%s", this.techNum, this.techName); 
+        result += "Technician Number: " + this.techNum + ", Technician Name: " + this.techName;
+        //result += String.format("%3d\t\t\t\t%s", this.techNum, this.techName); 
         
         return result;
 }
