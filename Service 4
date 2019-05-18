@@ -25,7 +25,9 @@ public class Service {
   public String toString()
   {
     String result = "";
-    result += String.format("%3d\t\t\t\t%s\t\t\t%s\t\t\t%s", this.serviceID, this.serviceName, this.serviceLevel, this.town);
+    //result += String.format("%3d\t\t\t\t%s\t\t\t%s\t\t\t%s", this.serviceID, this.serviceName, this.serviceLevel, this.town);
+    result += "Service ID: " + this.serviceID + ", Service Name: " + this.serviceName +
+            ", Service Level: " + this.serviceLevel + ", Town: " + this.town;
     return result;
   }
 }
