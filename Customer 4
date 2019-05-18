@@ -58,7 +58,9 @@ public class Customer {
     public String toString()
     {
         String result = "";
-        result += String.format("%3d\t\t\t\t%s\t\t\t%s\t\t\t%s", this.customerID, this.name, this.phone, this.address);
+        result += "Customer ID: " + this.customerID + ", Name: " + this.name +
+                ", Phone #: " + this.phone + ", Address: " + this.address;
+        //result += String.format("%3d\t\t\t\t%s\t\t\t%s\t\t\t%s", this.customerID, this.name, this.phone, this.address);
         
         return result;
     }
