@@ -65,7 +65,8 @@ public class GUI extends Application {
     Button btnMService = new Button("Create Service");
     
     // Actions Menu
-    Button btnOrder = new Button("Customer Order");
+    Button btnPOrder = new Button("Customer Product Order");
+    Button btnSOrder = new Button("Customer Service Order");
     Button btnService = new Button("Technician Services");
     
         
@@ -140,12 +141,16 @@ public class GUI extends Application {
     Button btnCreateService = new Button("Create Service");
     
     
-    // Order Menu
-    Label lblOrder = new Label("Customer Order Menu");
+    // Product Order Menu
+    Label lblOrder = new Label("Customer Product Order Menu");
     Label lblOCust = new Label("Customer: ");
     Label lblOProd = new Label("Product: ");
     Label lblOStore = new Label("Store: ");
-    Button btnCreateO = new Button("Create Order");
+    Button btnCreatePO = new Button("Create Product Order");
+    
+    // Service Order Menu
+    Label lblSOrder = new Label("Customer Service Order Menu");
+    Button btnCreateSO = new Button("Create Service Order");
     
     // Technician Service Menu
     Label lblTechService = new Label("Technician Service Menu");
@@ -587,20 +592,54 @@ public class GUI extends Application {
             
         });
         
-        btnCreateO.setOnAction(e -> {
+        btnCreatePO.setOnAction(e -> {
+            if (cmboCust.getValue().toString().isEmpty() ||
+                    cmboProd.getValue().toString().isEmpty() ||
+                    cmboStore.getValue().toString().isEmpty())
+            {
+                alert.setHeaderText("Error! Please Select Data!");
+                alert.showAndWait();
+            }
+            else 
+            {
             custVar = cmboCust.getSelectionModel().getSelectedIndex(); 
             custProdVar = cmboProd.getSelectionModel().getSelectedIndex();
             custStoreVar = cmboStore.getSelectionModel().getSelectedIndex(); 
-            custServiceVar = cmboService.getSelectionModel().getSelectedIndex(); 
+            //custServiceVar = cmboService.getSelectionModel().getSelectedIndex(); 
             customerList.get(custVar).addProdOrder(productList.get(custProdVar));
-            customerList.get(custVar).addServiceOrder(serviceList.get(custServiceVar)); 
+            //customerList.get(custVar).addServiceOrder(serviceList.get(custServiceVar)); 
             customerList.get(custVar).addStoreOrdered(storeList.get(custStoreVar)); 
             
             cmboCust.getSelectionModel().clearSelection();
             cmboProd.getSelectionModel().clearSelection();
             cmboStore.getSelectionModel().clearSelection();
-            cmboService.getSelectionModel().clearSelection();            
+            //cmboService.getSelectionModel().clearSelection(); 
+            }
         }); 
+        
+        btnCreateSO.setOnAction(e -> {
+            if (cmboCust.getValue().toString().isEmpty() ||
+                    cmboService.getValue().toString().isEmpty() ||
+                    cmboStore.getValue().toString().isEmpty())
+            {
+                alert.setHeaderText("Error! Please Select Data!");
+                alert.showAndWait();
+            }
+            else
+            {
+            custVar = cmboCust.getSelectionModel().getSelectedIndex();
+            custServiceVar = cmboService.getSelectionModel().getSelectedIndex();
+            custStoreVar = cmboStore.getSelectionModel().getSelectedIndex();
+            
+            customerList.get(custVar).addServiceOrder(serviceList.get(custServiceVar));
+            customerList.get(custVar).addStoreOrdered(storeList.get(custStoreVar));
+            
+            cmboCust.getSelectionModel().clearSelection();
+            cmboService.getSelectionModel().clearSelection();
+            cmboStore.getSelectionModel().clearSelection();
+            }
+        });
+        
         btnDisplayCustomers.setOnAction(e -> {
             if (cmboCust.getValue().toString().isEmpty())
             {
@@ -621,7 +660,9 @@ public class GUI extends Application {
             for(int i = 0; i<customerList.get(custVar).getAddServiceSize(); i++) //separate for loop for service store and product 
             {
                output += customerList.get(custVar).getAddedService(i).toString();
-               output += "\t\t\t"; 
+               //output += "\t\t\t"; 
+               output += ", Store: ";
+               output += customerList.get(custVar).getAddedStore(i).toString();
                output += "\n"; 
     
             }
@@ -630,12 +671,12 @@ public class GUI extends Application {
                 output += customerList.get(custVar).getAddedProducts(i).toString(); 
                 //output += "\t\t\t"; 
                 //output += "\n"; 
-                for (int j = 0; j < customerList.get(custVar).getAddStoreSize(); j++) {
+                
                    //output += "\t\t\t"; 
                    output += ", Store: ";
-                   output += customerList.get(custVar).getAddedStore(j).toString();  
+                   output += customerList.get(custVar).getAddedStore(i).toString();  
                    //output += "\n"; 
-               }
+               
                 output += "\n";
             }
             /*
@@ -670,12 +711,13 @@ public class GUI extends Application {
         btnActions.setOnAction(e -> {
             primaryPane.getChildren().clear();
             primaryPane.add(lblWelcome, 0, 0);
-            primaryPane.add(btnOrder, 0, 1);
-            primaryPane.add(btnService, 0, 2);
-            primaryPane.add(btnMain, 0, 3);
+            primaryPane.add(btnPOrder, 0, 1);
+            primaryPane.add(btnSOrder, 0, 2);
+            primaryPane.add(btnService, 0, 3);
+            primaryPane.add(btnMain, 0, 4);
         });
         
-        btnOrder.setOnAction(e -> {
+        btnPOrder.setOnAction(e -> {
             primaryPane.getChildren().clear();
             primaryPane.add(lblOrder, 0, 0);
             primaryPane.add(lblOCust, 0, 1);
@@ -684,10 +726,23 @@ public class GUI extends Application {
             primaryPane.add(cmboProd, 1, 2);
             primaryPane.add(lblOStore, 0, 3);
             primaryPane.add(cmboStore, 1, 3);
-            primaryPane.add(lblService, 0, 4);
-            primaryPane.add(cmboService, 1, 4);
-            primaryPane.add(btnCreateO, 1, 5);
+            //primaryPane.add(lblService, 0, 4);
+            //primaryPane.add(cmboService, 1, 4);
+            primaryPane.add(btnCreatePO, 1, 5);
             primaryPane.add(btnMain, 1, 6);
+        });
+        
+        btnSOrder.setOnAction(e -> {
+           primaryPane.getChildren().clear();
+           primaryPane.add(lblSOrder, 0, 0);
+           primaryPane.add(lblOCust, 0, 1);
+           primaryPane.add(cmboCust, 1, 1);
+           primaryPane.add(lblService, 0, 2);
+           primaryPane.add(cmboService, 1, 2);
+           primaryPane.add(lblOStore, 0, 3);
+           primaryPane.add(cmboStore, 1, 3);
+           primaryPane.add(btnCreateSO, 1, 4);
+           primaryPane.add(btnMain, 1, 5);
         });
         
         btnService.setOnAction(e -> {
@@ -757,6 +812,7 @@ public class GUI extends Application {
         launch(args);
     }
     
+    /*
     public static void displayCustomers(TextArea customerDisplay)
     {
         System.out.println(customerList.size());
@@ -769,7 +825,7 @@ public class GUI extends Application {
         }
         customerDisplay.setText(current);
     }
-    
+    */
     
 }
 
