@@ -704,7 +704,8 @@ public class GUI extends Application {
                output += "\n"; 
            }*/
             
-           txtOutput.setText(output); 
+           txtOutput.setText(output);
+           cmboCust.getSelectionModel().clearSelection();
             }
         });
         
