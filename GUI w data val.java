@@ -493,8 +493,18 @@ public class GUI extends Application {
             techList.get(techVar).addStore(storeList.get(techStoreVar)); 
             //storeList.get(techStoreVar).addStoreTech(techList.get(techVar)); 
             
+            cmboTech.getSelectionModel().clearSelection();
+            cmboService.getSelectionModel().clearSelection();
+            cmboStore.getSelectionModel().clearSelection();
         }); 
         btnDisplayTech.setOnAction(e -> {
+            if (cmboTech.getValue().toString().isEmpty())
+            {
+                alert.setHeaderText("Error! Please Select Data!");
+                alert.showAndWait();
+            }
+            else
+            {
             String output = ""; 
             //txtOutput.clear(); 
             techVar = cmboTech.getSelectionModel().getSelectedIndex(); 
@@ -544,7 +554,8 @@ public class GUI extends Application {
            
            txtOutput.setText(output);
            
-        
+           cmboTech.getSelectionModel().clearSelection();
+            }
             //had to add on to the output the toStrings of service and store class to call their version of to string to show 
             //the service and store data from those arrays with those selected indexes
         });
@@ -584,8 +595,20 @@ public class GUI extends Application {
             customerList.get(custVar).addProdOrder(productList.get(custProdVar));
             customerList.get(custVar).addServiceOrder(serviceList.get(custServiceVar)); 
             customerList.get(custVar).addStoreOrdered(storeList.get(custStoreVar)); 
+            
+            cmboCust.getSelectionModel().clearSelection();
+            cmboProd.getSelectionModel().clearSelection();
+            cmboStore.getSelectionModel().clearSelection();
+            cmboService.getSelectionModel().clearSelection();            
         }); 
         btnDisplayCustomers.setOnAction(e -> {
+            if (cmboCust.getValue().toString().isEmpty())
+            {
+                alert.setHeaderText("Error! Please Select Data!");
+                alert.showAndWait();
+            }
+            else
+            {
             String output = ""; 
             txtOutput.clear(); 
             custVar = cmboCust.getSelectionModel().getSelectedIndex(); 
@@ -602,16 +625,26 @@ public class GUI extends Application {
                output += "\n"; 
     
             }
+            
             for (int i = 0; i< customerList.get(custVar).getAddedProductsSize(); i++) { 
                 output += customerList.get(custVar).getAddedProducts(i).toString(); 
-                output += "\t\t\t"; 
-                output += "\n"; 
+                //output += "\t\t\t"; 
+                //output += "\n"; 
+                for (int j = 0; j < customerList.get(custVar).getAddStoreSize(); j++) {
+                   //output += "\t\t\t"; 
+                   output += ", Store: ";
+                   output += customerList.get(custVar).getAddedStore(j).toString();  
+                   //output += "\n"; 
+               }
+                output += "\n";
             }
+            /*
             for (int i = 0; i < customerList.get(custVar).getAddStoreSize(); i++) {
                    output += "\t\t\t"; 
                    output += customerList.get(custVar).getAddedStore(i).toString();  
                    //output += "\n"; 
                }
+            */
                //output += productList.get(i).toString(); 
                //output += "\n";
            
@@ -631,7 +664,7 @@ public class GUI extends Application {
            }*/
             
            txtOutput.setText(output); 
-           
+            }
         });
         
         btnActions.setOnAction(e -> {
