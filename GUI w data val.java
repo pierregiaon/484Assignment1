@@ -452,7 +452,7 @@ public class GUI extends Application {
         });
         
         btnCreateStore.setOnAction(e -> {
-           if (txtSName.getText().trim().length() == 0)
+           if (txtStName.getText().trim().length() == 0)
             {
                 alert.setHeaderText("Error! Please Enter Data!");
                 alert.showAndWait();
