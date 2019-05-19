@@ -12,19 +12,38 @@ public class Store {
     public String storeName; 
     public static ObservableList obsStore = FXCollections.observableArrayList();
     public ArrayList<Technician> addStoreTech = new ArrayList<>(); 
+    public ArrayList<Customer> addStoreCust = new ArrayList<>(); 
     
-    public void addStoreTech(Technician newTechnician) {
-        addStoreTech.add(newTechnician); 
-    }
-    public String getStoreName() {
-        return this.storeName; 
-    }
+   
     public Store(String storeName) {
         this.storeName = storeName;
         this.storeID = nextStoreID++;
         obsStore.add(this.storeName);
     }
+     public void addStoreTech(Technician newTechnician) {
+        addStoreTech.add(newTechnician); 
+    }
+    public int getStoreTechSize() {
+        return addStoreTech.size(); 
+    }
+   
+    public String getStoreName() {
+        return this.storeName; 
+    }
+    public void addStoreCust(Customer newCustomer) {
+        this.addStoreCust(newCustomer);
+    }
+    public int getStoreCustSize() {
+        return addStoreCust.size(); 
+    }
+    public Technician getStoreTech(int index) {
+        return addStoreTech.get(index); 
+    }
+    public Customer getStoreCust(int index) {
+        return addStoreCust.get(index); 
+    }
     public String toString() {
         return this.storeName; 
 }
+    
 }
