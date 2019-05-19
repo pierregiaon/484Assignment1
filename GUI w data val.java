@@ -405,7 +405,7 @@ public class GUI extends Application {
                 double price = 0.0;
                 if(Double.parseDouble(txtPPrice.getText()) < 0.0)
                 {
-                    alert.setHeaderText("Error! Invalid Price: Must be above $0,00!");
+                    alert.setHeaderText("Error! Invalid Price: Must be above $0.00!");
                     alert.showAndWait();
                 }
                 else
@@ -490,6 +490,15 @@ public class GUI extends Application {
         });
         
         btnCreateS.setOnAction(e -> { //create service button for tech service menu 
+            if (cmboTech.getValue().toString().isEmpty() ||
+                    cmboService.getValue().toString().isEmpty() ||
+                    cmboStore.getValue().toString().isEmpty())
+            {
+                alert.setHeaderText("Error! Please Select Data!");
+                alert.showAndWait();
+            }
+            else
+            {
             techVar = cmboTech.getSelectionModel().getSelectedIndex(); 
             techServiceVar = cmboService.getSelectionModel().getSelectedIndex();
             techStoreVar = cmboStore.getSelectionModel().getSelectedIndex(); 
@@ -501,6 +510,7 @@ public class GUI extends Application {
             cmboTech.getSelectionModel().clearSelection();
             cmboService.getSelectionModel().clearSelection();
             cmboStore.getSelectionModel().clearSelection();
+            }
         }); 
         btnDisplayTech.setOnAction(e -> {
             if (cmboTech.getValue().toString().isEmpty())
@@ -515,7 +525,7 @@ public class GUI extends Application {
             techVar = cmboTech.getSelectionModel().getSelectedIndex(); 
             
             output += techList.get(techVar).toString();
-            output+= "\n\n"; 
+            output+= "\n========================================================\n"; 
             //output += serviceList.get(techServiceVar).toString(); 
             //output += "\t\t\t"; 
             //output += storeList.get(techStoreVar).toString(); 
@@ -545,7 +555,7 @@ public class GUI extends Application {
            for(int i = 0; i<techList.get(techVar).getAddServiceSize(); i++)
            {
                output += serviceList.get(i).toString();
-               output += "\t\t\t"; 
+               output += ", Store: "; 
                output += storeList.get(i).toString(); 
                output += "\n";
            }
@@ -652,7 +662,7 @@ public class GUI extends Application {
             txtOutput.clear(); 
             custVar = cmboCust.getSelectionModel().getSelectedIndex(); 
             output += customerList.get(custVar).toString();
-            output += "\n\n"; 
+            output += "\n=======================================================\n"; 
             //output += serviceList.get(custServiceVar).toString(); 
             //output += storeList.get(custStoreVar).toString(); 
             //output += productList.get(custProdVar).toString(); 
