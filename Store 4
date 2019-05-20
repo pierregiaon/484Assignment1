@@ -31,7 +31,7 @@ public class Store {
         return this.storeName; 
     }
     public void addStoreCust(Customer newCustomer) {
-        this.addStoreCust(newCustomer);
+        addStoreCust.add(newCustomer);
     }
     public int getStoreCustSize() {
         return addStoreCust.size(); 
@@ -42,8 +42,11 @@ public class Store {
     public Customer getStoreCust(int index) {
         return addStoreCust.get(index); 
     }
+    @Override
     public String toString() {
         return this.storeName; 
 }
     
 }
+
+
