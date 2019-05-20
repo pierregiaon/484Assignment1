@@ -489,7 +489,7 @@ public class GUI extends Application {
             }
         });
         
-        btnCreateS.setOnAction(e -> { //create service button for tech service menu 
+        btnCreateS.setOnAction(e -> { //create service button for technician services 
             if (cmboTech.getValue().toString().isEmpty() ||
                     cmboService.getValue().toString().isEmpty() ||
                     cmboStore.getValue().toString().isEmpty())
@@ -506,7 +506,8 @@ public class GUI extends Application {
             //serviceList.get(techServiceVar).addServiceTech(techList.get(techVar)); 
             techList.get(techVar).addStore(storeList.get(techStoreVar)); 
             //storeList.get(techStoreVar).addStoreTech(techList.get(techVar)); 
-            
+            storeVar = cmboStore.getSelectionModel().getSelectedIndex(); 
+            storeList.get(storeVar).addStoreTech(techList.get(techVar));
             cmboTech.getSelectionModel().clearSelection();
             cmboService.getSelectionModel().clearSelection();
             cmboStore.getSelectionModel().clearSelection();
@@ -555,7 +556,8 @@ public class GUI extends Application {
            for(int i = 0; i<techList.get(techVar).getAddServiceSize(); i++)
            {
                output += serviceList.get(i).toString();
-               output += ", Store: "; 
+               //output += ", Store: "; 
+               output += ", ";
                output += storeList.get(i).toString(); 
                output += "\n";
            }
@@ -619,6 +621,8 @@ public class GUI extends Application {
             customerList.get(custVar).addProdOrder(productList.get(custProdVar));
             //customerList.get(custVar).addServiceOrder(serviceList.get(custServiceVar)); 
             customerList.get(custVar).addStoreOrdered(storeList.get(custStoreVar)); 
+            storeVar = cmboStore.getSelectionModel().getSelectedIndex(); 
+            storeList.get(storeVar).addStoreCust(customerList.get(custVar));
             
             cmboCust.getSelectionModel().clearSelection();
             cmboProd.getSelectionModel().clearSelection();
@@ -627,7 +631,7 @@ public class GUI extends Application {
             }
         }); 
         
-        btnCreateSO.setOnAction(e -> {
+        btnCreateSO.setOnAction(e -> { //this is for service order for customers 
             if (cmboCust.getValue().toString().isEmpty() ||
                     cmboService.getValue().toString().isEmpty() ||
                     cmboStore.getValue().toString().isEmpty())
@@ -640,13 +644,19 @@ public class GUI extends Application {
             custVar = cmboCust.getSelectionModel().getSelectedIndex();
             custServiceVar = cmboService.getSelectionModel().getSelectedIndex();
             custStoreVar = cmboStore.getSelectionModel().getSelectedIndex();
-            
+            storeVar = cmboStore.getSelectionModel().getSelectedIndex(); 
+            storeList.get(storeVar).addStoreCust(customerList.get(custVar));
             customerList.get(custVar).addServiceOrder(serviceList.get(custServiceVar));
             customerList.get(custVar).addStoreOrdered(storeList.get(custStoreVar));
+            
+            
             
             cmboCust.getSelectionModel().clearSelection();
             cmboService.getSelectionModel().clearSelection();
             cmboStore.getSelectionModel().clearSelection();
+            
+             
+            
             }
         });
         
@@ -663,27 +673,34 @@ public class GUI extends Application {
             custVar = cmboCust.getSelectionModel().getSelectedIndex(); 
             output += customerList.get(custVar).toString();
             output += "\n=======================================================\n"; 
+            output += "Services: \n";
+            output += "----------------------------------------------------------------\n";
             //output += serviceList.get(custServiceVar).toString(); 
             //output += storeList.get(custStoreVar).toString(); 
             //output += productList.get(custProdVar).toString(); 
             txtOutput.setText(output);
+            
             for(int i = 0; i<customerList.get(custVar).getAddServiceSize(); i++) //separate for loop for service store and product 
             {
                output += customerList.get(custVar).getAddedService(i).toString();
                //output += "\t\t\t"; 
-               output += ", Store: ";
+               //output += ", Store: ";
+               output += ", ";
                output += customerList.get(custVar).getAddedStore(i).toString();
                output += "\n"; 
     
             }
-            
+            output += "----------------------------------------------------------------\n";
+            output += "Products: \n";
+            output += "----------------------------------------------------------------\n";
             for (int i = 0; i< customerList.get(custVar).getAddedProductsSize(); i++) { 
                 output += customerList.get(custVar).getAddedProducts(i).toString(); 
                 //output += "\t\t\t"; 
                 //output += "\n"; 
                 
                    //output += "\t\t\t"; 
-                   output += ", Store: ";
+                   //output += ", Store: ";
+                   output += ", ";
                    output += customerList.get(custVar).getAddedStore(i).toString();  
                    //output += "\n"; 
                
@@ -769,6 +786,46 @@ public class GUI extends Application {
             primaryPane.add(btnMain, 1, 5);
         });
         
+       btnDisplayStore.setOnAction(e -> {
+            storeVar = cmboStore.getSelectionModel().getSelectedIndex(); 
+            //storeList.get(storeVar).addStoreTech(techList.get(techVar));
+            //storeList.get(storeVar).addStoreCust(customerList.get(custVar)); 
+            //custStoreVar = cmboStore.getSelectionModel().getSelectedIndex(); 
+            //custServiceVar = cmboService.getSelectionModel().getSelectedIndex(); 
+            //customerList.get(custVar).addProdOrder(productList.get(custProdVar));
+            //customerList.get(custVar).addServiceOrder(serviceList.get(custServiceVar)); 
+            //customerList.get(custVar).addStoreOrdered(storeList.get(custStoreVar));  
+            String output = ""; 
+            txtOutput.clear(); 
+            //custVar = cmboCust.getSelectionModel().getSelectedIndex(); 
+            output += storeList.get(storeVar).toString();
+            output += "\n=======================================================\n"; 
+            output += "Customers: \n";
+            output += "----------------------------------------------------------------\n";
+            for(int i = 0; i<storeList.get(storeVar).getStoreCustSize(); i++) //separate for loop for service store and product 
+            {
+               output += storeList.get(storeVar).getStoreCust(i).toString();
+               output += "\t\t\t"; 
+               output += "\n"; 
+    
+            }
+            output += "----------------------------------------------------------------\n";
+            output += "Technicians: \n";
+            output += "----------------------------------------------------------------\n";
+            for (int i = 0; i< storeList.get(storeVar).getStoreTechSize(); i++) { 
+                output += storeList.get(storeVar).getStoreTech(i).toString(); 
+                output += "\t\t\t"; 
+                output += "\n"; 
+            }
+            output += "----------------------------------------------------------------\n";
+            
+            txtOutput.setText(output); 
+            cmboStore.getSelectionModel().clearSelection();
+            
+            
+        }); 
+
+        
     }
 
     public void sendDBCommand(String sqlQuery)
@@ -839,6 +896,7 @@ public class GUI extends Application {
     */
     
 }
+
 
 
 
