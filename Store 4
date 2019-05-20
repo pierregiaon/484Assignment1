@@ -1,4 +1,10 @@
-package hw1_2;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package HW1;
+
 import java.text.DecimalFormat;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,7 +24,7 @@ public class Store {
     public Store(String storeName) {
         this.storeName = storeName;
         this.storeID = nextStoreID++;
-        obsStore.add(this.storeName);
+        obsStore.add(this.storeID + ": " + this.storeName);
     }
      public void addStoreTech(Technician newTechnician) {
         addStoreTech.add(newTechnician); 
@@ -44,7 +50,7 @@ public class Store {
     }
     @Override
     public String toString() {
-        return this.storeName; 
+        return "Store: " + this.storeName; 
 }
     
 }
