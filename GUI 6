@@ -1,3 +1,5 @@
+package hw1_2; 
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -23,6 +25,9 @@ import oracle.jdbc.pool.*;
 
 
 public class GUI extends Application {
+    Connection dbConn; 
+    Statement commStmt; 
+    ResultSet dbResults; 
     
     static ArrayList<Customer> customerList = new ArrayList<Customer>();
     static ArrayList<Product> productList = new ArrayList<Product>();
@@ -177,9 +182,7 @@ public class GUI extends Application {
     // Our Database Connection method needs these 
     // objects. We declare them here and point them
     // to instance objects below.
-    Connection dbConn;
-    Statement commStmt;
-    ResultSet dbResults;
+ 
     
     int techVar = 0; 
     int serviceVar = 0; 
@@ -193,6 +196,13 @@ public class GUI extends Application {
     
     @Override
     public void start(Stage primaryStage) {
+        
+        loadCustomersFromDB(); 
+        loadProductsFromDB(); 
+        loadStoresFromDB(); 
+        loadServicesFromDB(); 
+        loadTechniciansFromDB(); 
+        loadSuppliersFromDB(); 
         
         alert.setTitle("Error!");
         alert.setHeaderText("Please Enter Data");
@@ -812,20 +822,106 @@ public class GUI extends Application {
 
         
     }
-
-    public void sendDBCommand(String sqlQuery)
+    @Override
+    public void stop(){
+        String data; 
+        String query; 
+        
+       /* for (int j = 0; j< customerList.size(); j++) {
+            for (int i = 0; i< customerList.get(custVar).addProdOrder.size(); i++) {
+                data = "('" + (productList.get(i).getProductID() + 1) + "', '" + productList.get(i).getProductName() + "', '" +
+                        productList.get(i).getPrice() + "', '" + productList.get(i).getDesc() + "')"; 
+                query = "INSERT INTO SYSTEM.PRODUCT2(PRODUCTID, PRODNAME, PRICE, PRODDESC) VALUES " + data; 
+                DBCommand(query); 
+                //name, price, desc
+            }
+        }*/
+       
+       /* for (int i = 0; i < customerList.size(); i++) {
+            for (int j = 0; j < customerList.get(custVar).addServiceOrder.size(); j++) {
+                data = "('" + (serviceList.get(i).getServiceID() + 1) + "', '" + serviceList.get(i).getServiceName() + "', '" +
+                        serviceList.get(i).getServiceLevel() + "', '" + serviceList.get(i).getTown() + "')"; 
+                query = "INSERT INTO SYSTEM.SERVICE(SERVICEID, SERVICENAME, SERVICELEVEL, TOWN) VALUES " + data; 
+                DBCommand(query); 
+  
+            }
+        }*/
+        for (int i = 0; i < customerList.size(); i++) {
+            data = "('" + (customerList.get(i).getCustomerID()) + "', '" + customerList.get(i).getCustomerName() + "', '" +
+                        customerList.get(i).getPhone() + "', '" + customerList.get(i).getAddress() + "')"; 
+                query = "INSERT INTO SYSTEM.CUSTOMER2(CUSTOMERID, NAME, PHONE, ADDRESS) VALUES " + data; 
+                DBCommand(query); 
+        }
+        for (int i = 0; i < techList.size(); i++) {
+            data = "('" + (techList.get(i).getTechNum() + 1) + "', '" + techList.get(i).getTechName() + "')"; 
+                query = "INSERT INTO SYSTEM.TECHNICIAN(TECHNUM, TECHNAME" + data; 
+                DBCommand(query); 
+  
+        
+        }
+        /*for (int i = 0; i<techList.size(); i++) {
+            for (int j = 0; j < techList.get(techVar).addService.size(); j++) {
+                data = "('" + (serviceList.get(i).getServiceID() + 1) + "', '" + serviceList.get(i).getServiceName() + "', '" +
+                        serviceList.get(i).getServiceLevel() + "', '" + serviceList.get(i).getTown() + "')"; 
+                query = "INSERT INTO SYSTEM.SERVICE(SERVICEID, SERVICENAME, SERVICELEVEL, TOWN) VALUES " + data; 
+                DBCommand(query); 
+            }
+        }*/
+        /*for (int i = 0; i<storeList.size(); i++) {
+            for (int j = 0; j<storeList.get(storeVar).addStoreCust.size(); j++) {
+                data = "('" + (customerList.get(i).getCustomerID() + 1) + "', '" + customerList.get(i).getCustomerName() + "', '" +
+                        customerList.get(i).getPhone() + "', '" + customerList.get(i).getAddress() + "')"; 
+                query = "INSERT INTO SYSTEM.CUSTOMER2(CUSTOMERID, NAME, PHONE, ADDRESS) VALUES " + data; 
+                DBCommand(query); 
+                
+            }
+        }*/
+        /*for (int i = 0; i<storeList.size(); i++) {
+            for (int j = 0; j<storeList.get(storeVar).addStoreTech.size(); j++) {
+                data = "('" + (techList.get(i).getTechNum() + 1) + "', '" + techList.get(i).getTechName() 
+                         + "')"; 
+                query = "INSERT INTO SYSTEM.TECHNICIAN(TECHNUM, TECHNAME) " + data; 
+                DBCommand(query); */
+   
+            //}
+        //}
+        for (int i = 0; i <storeList.size(); i++) {
+            data = "('" + (storeList.get(i).getStoreID()) + "', '" + storeList.get(i).getStoreName() + "')"; 
+                query = "INSERT INTO SYSTEM.STORE(STOREID, STORENAME) " + data; 
+                DBCommand(query); 
+        }
+        for (int i = 0; i <serviceList.size(); i++) {
+            data = "('" + (serviceList.get(i).getServiceID() + 1) + "', '" + serviceList.get(i).getServiceName() + "', '" + 
+                    serviceList.get(i).getServiceLevel() + "', '" + serviceList.get(i).getTown() + "')"; 
+                query = "INSERT INTO SYSTEM.SERVICE(SERVICEID, SERVICENAME, SERVICELEVEL, TOWN) " + data; 
+                DBCommand(query); 
+        }
+        for (int i = 0; i < productList.size(); i++) {
+            data = "('" + (productList.get(i).getProductID() + 1) + "', '" + productList.get(i).getProductName() + "', '" + 
+                    productList.get(i).getPrice() + "', '" + productList.get(i).getDesc() + "')"; 
+                query = "INSERT INTO SYSTEM.PRODUCT2(PRODUCTID, PRODUCTNAME, PRICE, PRODDESC) " + data; 
+                DBCommand(query); 
+        }
+        for (int i =0; i < supplierList.size(); i++) {
+            data = "('" + (supplierList.get(i).getSupplierID() + 1) + "', '" + supplierList.get(i).getSupplierName() + "', '" + 
+                    supplierList.get(i).getSupplierAddress() + "', '" + supplierList.get(i).getContactName() + "', '"+ supplierList.get(i).contactPhone
+                    +"', '" + supplierList.get(i).getContactEmail() + "')"; 
+                query = "INSERT INTO SYSTEM.SUPPLIER2(SUPPLIERID, SUPPLIERNAME, SUPPLIERADDRESS, CONTACTNAME, CONTACTPHONE, CONTACTEMAIL) " + data; 
+                DBCommand(query); 
+        }
+    }
+    
+     public static void main(String[] args) {
+        launch(args);
+    }
+    public ResultSet DBCommand(String sqlQuery)
     {
         // Set up your connection strings
         // IF YOU ARE IN CIS330 NOW: use YOUR Oracle Username/Password
         String URL = "jdbc:oracle:thin:@localhost:1521:XE";
-        String userID = "javauser"; // Change to YOUR Oracle username
-        String userPASS = "javapass"; // Change to YOUR Oracle password
+        String userID = "system"; // Change to YOUR Oracle username
+        String userPASS = "Pepsicola1!"; // Change to YOUR Oracle password
         OracleDataSource ds;
-        
-        // Clear Box Testing - Print each query to check SQL syntax
-        //  sent to this method.
-        // You can comment this line out when your program is finished
-        System.out.println(sqlQuery);
         
         // Lets try to connect
         try
@@ -835,7 +931,7 @@ public class GUI extends Application {
             // Where is the database located? Web? Local?
             ds.setURL(URL);
             // Send the user/pass and get an open connection.
-            dbConn = ds.getConnection(userID,userPASS);
+            Connection dbConn = ds.getConnection(userID,userPASS);
             // When we get results
             //  -TYPE_SCROLL_SENSITIVE means if the database data changes we
             //   will see our resultset update in real time.
@@ -843,7 +939,7 @@ public class GUI extends Application {
             //   data in our database by using the .update____() methods of
             //   the ResultSet class - TableView controls are impacted by
             //   this setting as well.
-            commStmt = dbConn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            Statement commStmt = dbConn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             // We send the query to the DB. A ResultSet object is instantiated
             //  and we are returned a reference to it, that we point to from
             // dbResults.
@@ -855,15 +951,123 @@ public class GUI extends Application {
             // Because we declared this variable globally above, we can use
             // the results in any method in the class.
         }
-        catch (SQLException e)
+        catch (SQLException e) {
         {
             System.out.println(e.toString());
         }
+        }
+    
+    return dbResults; 
     }
-
-    public static void main(String[] args) {
-        launch(args);
+    public void loadCustomersFromDB() {
+        String query = "SELECT * FROM SYSTEM.CUSTOMER2"; 
+        ResultSet resultSet = DBCommand(query); 
+        
+        try {
+            while(resultSet.next()) {
+                customerList.add(new Customer(resultSet.getString("NAME"), resultSet.getString("PHONE"), resultSet.getString("ADDRESS"))); 
+            }
+            
+        }
+        catch(SQLException e) {
+            System.out.println(e.toString());
+        }
     }
+    public void loadProductsFromDB() {
+        String query = "SELECT * FROM SYSTEM.PRODUCT2"; 
+        ResultSet resultSet = DBCommand(query); 
+        
+        try {
+            while(resultSet.next()) {
+                productList.add(new Product(resultSet.getString("PRODNAME"), resultSet.getDouble("PRICE"), resultSet.getString("PRODDESC"))); 
+            }
+        }
+        catch(SQLException e) {
+            System.out.println(e.toString());  
+        }
+    }
+    public void loadStoresFromDB() {
+        String query = "SELECT * FROM SYSTEM.STORE"; 
+        ResultSet resultSet = DBCommand(query); 
+        
+        try {
+            while(resultSet.next()) {
+                storeList.add(new Store(resultSet.getString("STORENAME"))); 
+            }
+            
+        }
+        catch(SQLException e) {
+            System.out.println(e.toString());
+        }   
+    }
+    public void loadServicesFromDB() {
+        String query = "SELECT * FROM SYSTEM.SERVICE"; 
+        ResultSet resultSet = DBCommand(query); 
+        
+        try {
+            while(resultSet.next()) {
+                serviceList.add(new Service(resultSet.getString("SERVICENAME"), resultSet.getString("SERVICELEVEL"), resultSet.getString("TOWN"))); 
+            }
+            
+        }
+        catch(SQLException e) {
+            System.out.println(e.toString());
+        }   
+    }
+    public void loadSuppliersFromDB() {
+        String query = "SELECT * FROM SYSTEM.SUPPLIER2"; 
+        ResultSet resultSet = DBCommand(query); 
+        
+        try {
+            while(resultSet.next()) {
+                supplierList.add(new Supplier(resultSet.getString("SUPPLIERNAME"), resultSet.getString("SUPPLIERADDRESS"), 
+                        resultSet.getString("CONTACTNAME"), resultSet.getString("CONTACTPHONE"), resultSet.getString("CONTACTEMAIL")));
+                
+            }
+            
+        }
+        catch(SQLException e) {
+            System.out.println(e.toString());
+        }   
+   
+    }
+    public void loadTechniciansFromDB() {
+        String query = "SELECT * FROM SYSTEM.TECHNICIAN"; 
+        ResultSet resultSet = DBCommand(query); 
+        
+        try {
+            while(resultSet.next()) {
+                techList.add(new Technician(resultSet.getString("TECHNAME"))); 
+                
+            }
+            
+        }
+        catch(SQLException e) {
+            System.out.println(e.toString());
+        }   
+    }
+    /*public void loadPOFromDB() {
+        String query = "SELECT * FROM SYSTEM.PRODUCT" + "SELECT FROM SYSTEM.CUSTOMER"; 
+        ResultSet resultSet = DBCommand(query); 
+        
+        try {
+            while(resultSet.next()) {
+                customerList.add(new Product(resultSet.getString("PRODNAME"), ))
+                
+                
+                
+                
+                for (int j = 0; j< customerList.size(); j++) {
+            for (int i = 0; i< customerList.get(custVar).addProdOrder.size(); i++) {
+                data = "('" + (productList.get(i).getProductID() + 1) + "', '" + productList.get(i).getProductName() + "', '" +
+                        productList.get(i).getPrice() + "', '" + productList.get(i).getDesc() + "')"; 
+                query = "INSERT INTO SYSTEM.PRODUCT2(PRODUCTID, PRODNAME, PRICE, PRODDESC) VALUES " + data; 
+                DBCommand(query); 
+                
+            }
+        }
+    }*/
+   
     
     /*
     public static void displayCustomers(TextArea customerDisplay)
